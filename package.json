@@ -1,0 +1,11 @@
+{
+  "name": "transwarp",
+  "version": "0.0.1",
+  "description": "ORM for Node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": ""
+  },
+  "author": "Fangdun Cai <cfddream@gmail.com>",
+  "license": "MIT"
+}
