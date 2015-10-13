@@ -12,5 +12,9 @@
     "babel": "^5.8.23",
     "lodash": "^3.10.1",
     "pluralize": "^1.2.1"
+  },
+  "devDependencies": {
+    "mysql": "^2.9.0",
+    "pg": "^4.4.2"
   }
 }
