@@ -1,14 +1,17 @@
 import EventEmitter from 'events'
-import _ from 'lodash'
 import { plural, singular } from 'pluralize'
 
 export default class BaseModel {
 
-  static schema = Object.create(null)
-
   static create(attributes) {
     const m = new this(attributes)
     return m
+  }
+
+  static schema = Object.create(null)
+
+  static get attributes() {
+    return Object.keys(this.schema)
   }
 
   static get type() {
