@@ -10,6 +10,9 @@ export default class BaseModel {
 
   static schema = Object.create(null)
 
+  // Returns a human-readable description of this object.
+  static description = ''
+
   static get attributes() {
     return Object.keys(this.schema)
   }
