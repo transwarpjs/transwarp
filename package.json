@@ -4,7 +4,7 @@
   "description": "ORM for Node.js",
   "main": "index.js",
   "scripts": {
-    "test": ""
+    "test": "mocha --compilers js:babel/register --reporter spec --bail --check-leaks test"
   },
   "author": "Fangdun Cai <cfddream@gmail.com>",
   "license": "MIT",
@@ -14,7 +14,17 @@
     "pluralize": "^1.2.1"
   },
   "devDependencies": {
+    "mocha": "^2.3.3",
     "mysql": "^2.9.0",
     "pg": "^4.4.2"
+  },
+  "babel": {
+    "stage": 1,
+    "optional": [
+      "es7.classProperties"
+    ],
+    "blacklist": [
+      "es6.constants"
+    ]
   }
 }
