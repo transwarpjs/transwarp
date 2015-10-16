@@ -30,20 +30,37 @@ export default class BaseModel {
     return this.defaultTableName
   }
 
+  // Model Methods
+
   /**
    * Creates an instance of the Model
    *
    * @example
    *
-   *  User.create({})
-   *  new User({})
+   *    var user = User.create({}) // Or new User({})
+   *    user.save()
+   *    // => `INSERT INTO users () VALUES ();`
    *
    * @param {Object} attributes
-   * @returns {Model} Any Model
+   * @returns {Promise}
    */
   static create(attributes) {
     const m = new this(attributes)
-    return m
+    return m.save()
   }
+
+  /**
+   * Destroys records by Key
+   *
+   * @example
+   *
+   *    User.destroy(1)
+   *    User.destroy([1, 2, 3])
+   *    User.destroy(1, 2, 3)
+   *
+   * @param {Array} ...ids
+   * @returns {Promise}
+   */
+  static destroy(...ids) {}
 
 }
