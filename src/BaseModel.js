@@ -3,18 +3,16 @@ import { plural, singular } from 'pluralize'
 
 export default class BaseModel {
 
-  static create(attributes) {
-    const m = new this(attributes)
-    return m
-  }
-
-  static schema = Object.create(null)
+  // eg. postgres: public schema
+  static schema = null
 
   // Returns a human-readable description of this object.
-  static description = ''
+  static description = null
 
-  static get attributes() {
-    return Object.keys(this.schema)
+  static attributes = Object.create(null)
+
+  static get attrNames() {
+    return Object.keys(this.attributes)
   }
 
   static get type() {
@@ -32,6 +30,20 @@ export default class BaseModel {
     return this.defaultTableName
   }
 
-  // eg. postgres
-  static get schemaName() {}
+  /**
+   * Creates an instance of the Model
+   *
+   * @example
+   *
+   *  User.create({})
+   *  new User({})
+   *
+   * @param {Object} attributes
+   * @returns {Model} Any Model
+   */
+  static create(attributes) {
+    const m = new this(attributes)
+    return m
+  }
+
 }
