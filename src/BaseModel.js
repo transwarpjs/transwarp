@@ -9,10 +9,28 @@ export default class BaseModel {
   // Returns a human-readable description of this object.
   static description = null
 
-  static attributes = Object.create(null)
+  /**
+   * Defines the Model Schema
+   *
+   * @example
+   *
+   *    class User extends Model {
+   *      static struct = {
+   *        name: {
+   *          type: 'string'
+   *        }
+   *      }
+   *    }
+   */
+  static struct = Object.create(null)
 
-  static get attrNames() {
-    return Object.keys(this.attributes)
+  /**
+   * Gets attribute names of the Model Schema
+   *
+   * @returns {Array}
+   */
+  static get attributes() {
+    return Object.keys(this.struct)
   }
 
   static get type() {
@@ -57,6 +75,7 @@ export default class BaseModel {
    *    User.destroy(1)
    *    User.destroy([1, 2, 3])
    *    User.destroy(1, 2, 3)
+   *    // => `DELETE FROM users WHERE id IN (1, 2, 3);`
    *
    * @param {Array} ...ids
    * @returns {Promise}

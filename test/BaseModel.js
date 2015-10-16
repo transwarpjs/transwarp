@@ -41,9 +41,31 @@ describe('BaseModel', () => {
 
   })
 
-  describe('#attributes', () => {
+  describe('#struct', () => {
+
+    it('should return an object', () => {
+
+      assert.equal(_.isPlainObject(BaseModel.struct), true)
+
+    })
 
     it('should return an empty object', () => {
+
+      assert.equal(_.isEmpty(BaseModel.struct), true)
+
+    })
+
+  })
+
+  describe('#attributes', () => {
+
+    it('should return an array', () => {
+
+      assert.equal(Array.isArray(BaseModel.attributes), true)
+
+    })
+
+    it('should return an empty array', () => {
 
       assert.equal(_.isEmpty(BaseModel.attributes), true)
 
@@ -56,6 +78,19 @@ describe('BaseModel', () => {
     it('should return a function', () => {
 
       assert.equal(_.isFunction(BaseModel.create), true)
+      //assert.equal(BaseModel.create().constructor, BaseModel)
+      //assert.equal(BaseModel.create() instanceof BaseModel, true)
+      //assert.equal(BaseModel.create().constructor, (new BaseModel).constructor)
+
+    })
+
+  })
+
+  describe('#destroy()', () => {
+
+    it('should return a function', () => {
+
+      assert.equal(_.isFunction(BaseModel.destroy), true)
       //assert.equal(BaseModel.create().constructor, BaseModel)
       //assert.equal(BaseModel.create() instanceof BaseModel, true)
       //assert.equal(BaseModel.create().constructor, (new BaseModel).constructor)
