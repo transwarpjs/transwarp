@@ -27,6 +27,6 @@ class User extends Model {
 
 }
 
-var user = new User({ name: 'Spock, ag: 233 })
+var user = new User({ name: 'Spock', ag: 233 })
 user.save() // returns Promise Instalce
 ```
