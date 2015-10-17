@@ -1,5 +1,19 @@
-import Model from '../src/Model'
+import Model from '../../src/Model'
 
-class User extends Model {}
+export default class User extends Model {
 
-console.log(User.defaultTableName)
+  static struct = {
+
+    id: {
+      type: 'integer'
+    },
+
+    createdAt: 'date',
+
+    updatedAt: 'date',
+
+    deletedAt: 'date'
+
+  }
+
+}

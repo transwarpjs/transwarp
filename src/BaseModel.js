@@ -1,7 +1,8 @@
+import _ from 'lodash'
 import EventEmitter from 'events'
 import { plural, singular } from 'pluralize'
 
-export default class BaseModel {
+export default class BaseModel extends EventEmitter {
 
   // eg. postgres: public schema
   static schema = null
@@ -25,7 +26,7 @@ export default class BaseModel {
   static struct = Object.create(null)
 
   /**
-   * Gets attribute names of the Model Schema
+   * Gets attributes of the Model Schema
    *
    * @returns {Array}
    */
