@@ -55,16 +55,15 @@ export default class BaseModel {
    *
    * @example
    *
-   *    var user = User.create({}) // Or new User({})
-   *    user.save()
+   *    User.create({}) // Or new User({})
    *    // => `INSERT INTO users () VALUES ();`
    *
    * @param {Object} attributes
    * @returns {Promise}
    */
   static create(attributes) {
-    const m = new this(attributes)
-    return m.save()
+    const o = new this(attributes)
+    return o.save()
   }
 
   /**
@@ -81,5 +80,20 @@ export default class BaseModel {
    * @returns {Promise}
    */
   static destroy(...ids) {}
+
+  /**
+   * Updates an instance
+   *
+   * @example
+   *
+   *    User.update(user)
+   *    // => `UPDATE users SET field = value WHERE id = 1;`
+   *
+   * @param {Object} object - An instance of the Model
+   * @returns {Promise}
+   */
+  static update(o) {
+    return o.save()
+  }
 
 }
