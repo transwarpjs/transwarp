@@ -4,7 +4,7 @@ import { plural, singular } from 'pluralize'
 
 export default class BaseModel extends EventEmitter {
 
-  // eg. postgres: public schema
+  // e.g: postgres - public schema
   static schema = null
 
   // Returns a human-readable description of this object.
@@ -43,7 +43,7 @@ export default class BaseModel extends EventEmitter {
     return plural(this.name.toLowerCase())
   }
 
-  // eg. custon table name
+  // e.g: custon table name
   // static tableName = 'users'
   static get tableName() {
     return this.defaultTableName
@@ -56,8 +56,10 @@ export default class BaseModel extends EventEmitter {
    *
    * @example
    *
-   *    User.create({}) // Or new User({})
+   *    User.create({})
+   *    // => `BEGIN TRANSACTION;`
    *    // => `INSERT INTO users () VALUES ();`
+   *    // => `COMMIT;`
    *
    * @param {Object} attributes
    * @returns {Promise}
@@ -80,7 +82,9 @@ export default class BaseModel extends EventEmitter {
    * @param {Array} ...ids
    * @returns {Promise}
    */
-  static destroy(...ids) {}
+  static destroy(...ids) {
+    ids = _.flattenDeep(ids)
+  }
 
   /**
    * Updates an instance
