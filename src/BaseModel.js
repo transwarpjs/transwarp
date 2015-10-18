@@ -5,7 +5,7 @@ import { plural, singular } from 'pluralize'
 export default class BaseModel extends EventEmitter {
 
   // e.g: postgres - public schema
-  static schema = null
+  static schemaName = null
 
   // Returns a human-readable description of this object.
   static description = null
@@ -16,14 +16,14 @@ export default class BaseModel extends EventEmitter {
    * @example
    *
    *    class User extends Model {
-   *      static struct = {
+   *      static schema = {
    *        name: {
    *          type: 'string'
    *        }
    *      }
    *    }
    */
-  static struct = Object.create(null)
+  static schema = Object.create(null)
 
   /**
    * Gets attributes of the Model Schema
@@ -31,7 +31,7 @@ export default class BaseModel extends EventEmitter {
    * @returns {Array}
    */
   static get attributes() {
-    return Object.keys(this.struct)
+    return Object.keys(this.schema)
   }
 
   static get type() {

@@ -1,6 +1,8 @@
 
 export default function(dialect = '') {
 
-  return require(`./dialects/${dialect}`)
+  const D = require(`./dialects/${dialect}`)
+
+  return new D()
 
 }

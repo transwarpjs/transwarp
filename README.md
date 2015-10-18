@@ -7,13 +7,13 @@ ORM/ODM for Node.js.
 
 ### Model
 
-#### Defines Model
+#### Defines a Model
 
 ```js
 
 class User extends Model {
 
-  static struct = {
+  static schema = {
     id: {
       type: 'integer'
     },
@@ -28,5 +28,5 @@ class User extends Model {
 }
 
 var user = new User({ name: 'Spock', ag: 233 })
-user.save() // returns Promise Instalce
+user.save() // returns Promise Instance
 ```

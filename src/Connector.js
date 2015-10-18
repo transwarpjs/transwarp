@@ -1,5 +1,6 @@
+import Scope from './Scope'
 import createDialect from './createDialect'
-import { open as openDatabase } from './transwrap'
+import { open as openDatabase } from './drivers'
 
 class Connector {
 
@@ -9,9 +10,16 @@ class Connector {
     this.logger = logger
     this.options = options
     this.database = database
+
+    Object.defineProperty(this.database, 'connector', {
+      enumerable: false,
+      configurable: false,
+      writable: false,
+      value: this
+    })
   }
 
-  // alias database
+  // Alias database
   get db() {
     return this.database
   }
@@ -32,10 +40,33 @@ class Connector {
    */
   close() {}
 
-  _clone() {
-    const c = new Connector()
+  clone() {
+    const c = new Connector(this)
     return c
   }
+
+  createScope() {
+    return new Scope()
+  }
+
+  // Basic CRUD
+
+  /**
+   * Creates record
+   *
+   * @param {Model} value - A Model Instance
+   * @returns {Promise}
+   */
+  create(value) {}
+
+  /**
+   * Deletes record
+   *
+   * @param {Model} value - A Model Instance
+   * @returns {Promise}
+   */
+  delete(value) {}
+
 }
 
 function open(dialect, source, options) {
