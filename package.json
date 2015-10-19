@@ -27,6 +27,7 @@
     ],
     "blacklist": [
       "es6.constants",
+      "es6.properties.computed",
       "es6.properties.shorthand"
     ]
   }
