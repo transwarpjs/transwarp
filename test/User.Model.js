@@ -4,11 +4,11 @@ import User from './fixtures/User'
 
 describe('User Model', () => {
 
-  describe('#struct', () => {
+  describe('#schema', () => {
 
-    it ('should return an struct object', () => {
+    it ('should return a schema object', () => {
 
-      assert.equal(_.isPlainObject(User.struct), true)
+      assert.equal(_.isPlainObject(User.schema), true)
 
     })
 

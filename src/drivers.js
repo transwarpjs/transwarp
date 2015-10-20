@@ -1,14 +1,16 @@
 import Database from './Database'
+import createDialect from './createDialect'
 
 const drivers = Object.create(null)
 
 function open(name, dataSourceName) {
-  var driver = drivers[name]
+  const driver = drivers[name]
   if (!driver) {
     throw new Error(`db: unknown driver ${name} (forgotten import?)`)
   }
 
   const db = new Database({
+    dialect: createDialect(name),
     driver: driver,
     dsn: dataSourceName
   })

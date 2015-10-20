@@ -5,18 +5,19 @@ export default class Scope {
   sql = ''
   values = null
 
-  constructor({ db }) {
+  constructor(db) {
     this.db = db
   }
 
   // Gets dialect
   get dialect() {
-    return this.db.connector.dialect
+    //return this.db.connector.dialect
+    return this.db.dialect
   }
 
-  // Shorts for the db connection
+  // Shorthand for the db connection
   get conn() {
-    return this.db.connection
+    return this.db.conn
   }
 
   row(sql = '') {

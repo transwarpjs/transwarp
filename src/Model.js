@@ -6,9 +6,7 @@ export default class Model extends BaseModel {
   constructor(state = null) {
     super()
 
-    const constructor = this.constructor
-
-    const attrs = constructor.attributes
+    const attrs = this.ctor.attributes
 
     this.state = _.pick(
       state,
@@ -16,12 +14,17 @@ export default class Model extends BaseModel {
     )
   }
 
+  // Shorthand for the Model Constructor
+  get ctor() {
+    return this.constructor
+  }
+
   get attributes() {
-    return this.constructor.attributes
+    return this.ctor.attributes
   }
 
   get type() {
-    return this.constructor.name
+    return this.ctor.name
   }
 
   // Instance Methods
@@ -64,10 +67,11 @@ export default class Model extends BaseModel {
    *    user.set('name', 'r2d2')
    *    user.save()
    *
-   * @param {Object} attributes
-   * @returns {Promise}
+   * @return {Promise}
    */
-  save() {}
+  save() {
+    //return 
+  }
 
   /**
    * Deletes a instance
@@ -77,7 +81,10 @@ export default class Model extends BaseModel {
    *    user.delete()
    *
    * @param {Object} attributes
-   * @returns {Promise}
+   * @return {Promise}
    */
   delete() {}
+
+
+  validate() {}
 }

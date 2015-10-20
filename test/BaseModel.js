@@ -31,27 +31,27 @@ describe('BaseModel', () => {
 
   })
 
-  describe('#schema', () => {
+  describe('#schemaName', () => {
 
     it('should return null', () => {
 
-      assert.equal(BaseModel.schema, null)
+      assert.equal(BaseModel.schemaName, null)
 
     })
 
   })
 
-  describe('#struct', () => {
+  describe('#schema', () => {
 
     it('should return an object', () => {
 
-      assert.equal(_.isPlainObject(BaseModel.struct), true)
+      assert.equal(_.isPlainObject(BaseModel.schema), true)
 
     })
 
     it('should return an empty object', () => {
 
-      assert.equal(_.isEmpty(BaseModel.struct), true)
+      assert.equal(_.isEmpty(BaseModel.schema), true)
 
     })
 

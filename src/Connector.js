@@ -1,11 +1,10 @@
 import Scope from './Scope'
-import createDialect from './createDialect'
 import { open as openDatabase } from './drivers'
 
 class Connector {
 
-  constructor({ dialect, source, logger, database, options }) {
-    this.dialect = dialect
+  constructor({ /*dialect,*/ source, logger, database, options }) {
+    //this.dialect = dialect
     this.source = source
     this.logger = logger
     this.options = options
@@ -27,7 +26,7 @@ class Connector {
   /**
    * Connects the database
    *
-   * @returns {Promise}
+   * @return {Promise}
    */
   connect() {
     return this.db.connect()
@@ -36,7 +35,7 @@ class Connector {
   /**
    * Closes the database
    *
-   * @returns {Promise}
+   * @return {Promise}
    */
   close() {}
 
@@ -55,7 +54,7 @@ class Connector {
    * Creates record
    *
    * @param {Model} value - A Model Instance
-   * @returns {Promise}
+   * @return {Promise}
    */
   create(value) {}
 
@@ -63,7 +62,7 @@ class Connector {
    * Deletes record
    *
    * @param {Model} value - A Model Instance
-   * @returns {Promise}
+   * @return {Promise}
    */
   delete(value) {}
 
@@ -72,7 +71,7 @@ class Connector {
 function open(dialect, source, options) {
 
   const connector = new Connector({
-    dialect: createDialect(dialect),
+    //dialect: createDialect(dialect),
     source: source,
     options: options,
     database: openDatabase(dialect, source)

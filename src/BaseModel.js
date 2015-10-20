@@ -4,10 +4,11 @@ import { plural, singular } from 'pluralize'
 
 export default class BaseModel extends EventEmitter {
 
+  // http://www.postgresql.org/docs/current/static/ddl-schemas.html
   // e.g: postgres - public schema
   static schemaName = null
 
-  // Returns a human-readable description of this object.
+  // return a human-readable description of this object.
   static description = null
 
   /**
@@ -28,7 +29,7 @@ export default class BaseModel extends EventEmitter {
   /**
    * Gets attributes of the Model Schema
    *
-   * @returns {Array}
+   * @return {Array}
    */
   static get attributes() {
     return Object.keys(this.schema)
@@ -51,22 +52,34 @@ export default class BaseModel extends EventEmitter {
 
   // Model Methods
 
+  // Attach a database
+  static attach(db) {
+    this.db = db
+  }
+
+  // Detach a database
+  static detach() {
+    delete this.db
+  }
+
   /**
    * Creates an instance of the Model
    *
    * @example
+   *
+   *    // For RDB
    *
    *    User.create({})
    *    // => `BEGIN TRANSACTION;`
    *    // => `INSERT INTO users () VALUES ();`
    *    // => `COMMIT;`
    *
-   * @param {Object} attributes
-   * @returns {Promise}
+   * @param {Object} attrs
+   * @return {Promise}
    */
-  static create(attributes) {
-    const o = new this(attributes)
-    return o.save()
+  static create(attrs) {
+    const v = new this(attrs)
+    return v.save()
   }
 
   /**
@@ -80,7 +93,7 @@ export default class BaseModel extends EventEmitter {
    *    // => `DELETE FROM users WHERE id IN (1, 2, 3);`
    *
    * @param {Array} ...ids
-   * @returns {Promise}
+   * @return {Promise}
    */
   static destroy(...ids) {
     ids = _.flattenDeep(ids)
@@ -95,10 +108,36 @@ export default class BaseModel extends EventEmitter {
    *    // => `UPDATE users SET field = value WHERE id = 1;`
    *
    * @param {Object} object - An instance of the Model
-   * @returns {Promise}
+   * @return {Promise}
    */
   static update(o) {
     return o.save()
   }
 
+  static find() {}
+
+  static first() {}
+
+  static last() {}
+
+  static select() {}
+
+  static where() {}
+
+  static not() {}
+
+  static order() {}
+
+  static group() {}
+
+  static limit() {}
+
+  static offset() {}
+
+  static count() {}
+
+  static firstOrCreate() {}
+
+  // Row SQL
+  static exec() {}
 }

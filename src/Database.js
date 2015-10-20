@@ -2,9 +2,11 @@ import Scope from './Scope'
 
 export default class Database {
 
-  constructor({ driver, dsn }) {
+  constructor({ driver, dialect, dsn }) {
+    this.dialect = dialect
     this.driver = driver
     this.dsn = dsn
+    this.scope = new Scope(this)
 
     Object.defineProperty(this.driver, 'db', {
       enumerable: false,
@@ -18,7 +20,8 @@ export default class Database {
     return this.driver.connect()
   }
 
-  get connection() {
+  // Shorthand for the database connection
+  get conn() {
     return this.connect()
   }
 
@@ -27,10 +30,10 @@ export default class Database {
    *
    * @param {String} sql
    * @param {*} values
-   * @returns {Promise}
+   * @return {Promise}
    */
   exec(sql = '', ...values) {
-    const scope = new Scope({ db: this })
+    const scope = new Scope(this)
     scope.build(sql, values)
     return scope.exec()
   }
@@ -38,11 +41,10 @@ export default class Database {
   /**
    * Verifies a connection to the database is still alive
    *
-   * @returns {Promise}
+   * @return {Promise}
    */
   ping() {
-    return this.connection
-      .then(({ client, done }) => {
+    return this.conn.then(({ client, done }) => {
         return new Promise((resolve, reject) => {
           client.query('', (err, result) => {
             // release pool conn
@@ -57,5 +59,29 @@ export default class Database {
         })
       })
   }
+
+  // Basic CRUD
+
+  /** Creates an instance
+   *
+   * @param {Model} value - A Model Instance
+   * @return {Promise}
+   */
+  create(value) {
+    return value.save()
+  }
+  save() {}
+  update() {}
+  delete() {}
+
+  // Query
+
+  find() {}
+  first() {}
+  last() {}
+
+  where() {}
+  not() {}
+  or() {}
 
 }
