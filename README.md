@@ -3,9 +3,9 @@
 ORM/ODM for Node.js.
 
 
-### Database
+## Database
 
-### Model
+## Model
 
 #### Defines Models
 
@@ -32,6 +32,7 @@ class User extends Model {
 
 class Post extends Model {
 
+  // Post's Schema
   static schema = {
 
     id: {
@@ -55,7 +56,7 @@ class Post extends Model {
 
 ```js
 
-var user = new User({
+var spock = new User({
   name: 'Spock',
   age:  2337
 })
@@ -63,3 +64,13 @@ var user = new User({
 ```
 
 ### Basics CRUD
+
+
+```js
+
+spock.delete()
+
+User.destory(spock)
+
+User.destory(1) // By Primary Key
+```
