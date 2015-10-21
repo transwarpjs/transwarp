@@ -7,26 +7,59 @@ ORM/ODM for Node.js.
 
 ### Model
 
-#### Defines a Model
+#### Defines Models
 
 ```js
 
 class User extends Model {
 
+  // User's Schema
   static schema = {
+
     id: {
-      type: 'integer'
+      type:     'integer'
     },
 
-    createdAt: 'date',
+    age:        'integer',
+    username:   'string',
 
-    updatedAt: 'date',
-
-    deletedAt: 'date'
+    createdAt:  'date',
+    updatedAt:  'date',
+    deletedAt:  'date'
   }
 
 }
 
-var user = new User({ name: 'Spock', ag: 233 })
-user.save() // returns Promise Instance
+class Post extends Model {
+
+  static schema = {
+
+    id: {
+      type:     'integer'
+    },
+
+    // One-To-One
+    user: User,
+
+    createdAt:  'date',
+    updatedAt:  'date',
+    deletedAt:  'date'
+
+  }
+
+}
+
 ```
+
+### Creates an instance of Model
+
+```js
+
+var user = new User({
+  name: 'Spock',
+  age:  2337
+})
+
+```
+
+### Basics CRUD
