@@ -4,7 +4,9 @@
   "description": "ORM for Node.js",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --compilers js:babel/register --reporter spec --bail --check-leaks test"
+    "test": "mocha --compilers js:babel/register --bail --check-leaks test",
+    "test-cov": "babel-node node_modules/.bin/isparta cover node_modules/.bin/_mocha -- -u exports --bail --check-leaks test",
+    "test-travis": "babel-node node_modules/.bin/isparta cover --report lcovonly node_modules/.bin/_mocha -- -u exports --bail --check-leaks test"
   },
   "author": "Fangdun Cai <cfddream@gmail.com>",
   "license": "MIT",
@@ -14,6 +16,7 @@
     "pluralize": "^1.2.1"
   },
   "devDependencies": {
+    "isparta": "^3.1.0",
     "mocha": "^2.3.3",
     "mongodb": "^2.0.46",
     "mysql": "^2.9.0",
