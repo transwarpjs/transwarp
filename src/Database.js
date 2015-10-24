@@ -1,4 +1,5 @@
 import Scope from './Scope'
+import Searcher from './Searcher'
 
 export default class Database {
 
@@ -60,9 +61,25 @@ export default class Database {
       })
   }
 
+  get searcher() {
+    return this._searcher || (this._searcher = new Searcher(this))
+  }
+
+  set searcher(searcher) {
+    this._searcher = searcher
+    // reference current database
+    this._searcher.db = this
+  }
+
+  clone() {
+    const db = Object.create(this)
+    db.searcher = db.searcher.clone()
+    return db
+  }
+
   // Basic CRUD
 
-  /** Creates an instance
+  /** Creates an instance, single inserts
    *
    * @param {Model} value - A Model Instance
    * @return {Promise}
@@ -74,14 +91,38 @@ export default class Database {
   update() {}
   delete() {}
 
+  select(...args) {
+    return this.clone().searcher.select(...args).db
+  }
+
+  where(...args) {
+    return this.clone().searcher.where(...args).db
+  }
+
   // Query
 
-  find() {}
-  first() {}
-  last() {}
+  // find() {}
+  // first() {}
+  // last() {}
 
-  where() {}
-  not() {}
-  or() {}
+  // select() {}
+  // eq() {}
+  // gt() {}
+  // lt() {}
+  // gte() {}
+  // lte() {}
+  // neq() {}
+  // like() {}
+  // ilike() {}
+  // // full-text search
+  // fts() {}
+  // is() {}
+  // isnot() {}
+  // in() {}
+  // notin() {}
+  // not() {}
+  // or() {}
 
+  // Bulk inserts, From `csv`, `json`
+  // bulkInsert() {}
 }

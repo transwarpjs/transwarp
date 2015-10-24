@@ -133,6 +133,8 @@ export default class BaseModel extends EventEmitter {
 
   static where() {}
 
+  static or() {}
+
   static not() {}
 
   static order() {}

@@ -70,7 +70,7 @@ export default class Model extends BaseModel {
    * @return {Promise}
    */
   save() {
-    //return 
+    //return
   }
 
   /**
