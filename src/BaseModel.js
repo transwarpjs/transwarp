@@ -4,6 +4,9 @@ import { plural, singular } from 'pluralize'
 
 export default class BaseModel extends EventEmitter {
 
+  // database
+  static db = null
+
   // http://www.postgresql.org/docs/current/static/ddl-schemas.html
   // e.g: postgres - public schema
   static schemaName = null
@@ -60,6 +63,12 @@ export default class BaseModel extends EventEmitter {
   // Detach a database
   static detach() {
     delete this.db
+  }
+
+  // Clone
+  static clone() {
+    const m = Object.create(this)
+    return m
   }
 
   /**

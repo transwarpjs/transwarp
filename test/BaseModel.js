@@ -5,7 +5,7 @@ import BaseModel from '../src/BaseModel'
 describe('BaseModel', () => {
 
 
-  describe('#defaultTableName', () => {
+  describe('.defaultTableName', () => {
 
     it('should get a table name by default', () => {
 
@@ -15,7 +15,7 @@ describe('BaseModel', () => {
 
   })
 
-  describe('#tableName', () => {
+  describe('.tableName', () => {
 
     it('should equal to default table name', () => {
 
@@ -31,7 +31,7 @@ describe('BaseModel', () => {
 
   })
 
-  describe('#schemaName', () => {
+  describe('.schemaName', () => {
 
     it('should return null', () => {
 
@@ -41,7 +41,7 @@ describe('BaseModel', () => {
 
   })
 
-  describe('#schema', () => {
+  describe('.schema', () => {
 
     it('should return an object', () => {
 
@@ -57,7 +57,7 @@ describe('BaseModel', () => {
 
   })
 
-  describe('#attributes', () => {
+  describe('.attributes', () => {
 
     it('should return an array', () => {
 
@@ -73,7 +73,7 @@ describe('BaseModel', () => {
 
   })
 
-  describe('#create()', () => {
+  describe('.create()', () => {
 
     it('should return a function', () => {
 
@@ -86,7 +86,7 @@ describe('BaseModel', () => {
 
   })
 
-  describe('#destroy()', () => {
+  describe('.destroy()', () => {
 
     it('should return a function', () => {
 
@@ -94,6 +94,40 @@ describe('BaseModel', () => {
       //assert.equal(BaseModel.create().constructor, BaseModel)
       //assert.equal(BaseModel.create() instanceof BaseModel, true)
       //assert.equal(BaseModel.create().constructor, (new BaseModel).constructor)
+
+    })
+
+  })
+
+  describe('.clone()', () => {
+
+    var NewBaseModel
+
+    before(() => {
+      NewBaseModel = BaseModel.clone()
+    })
+
+    it('should not change the prototype', () => {
+
+      assert.equal(Object.getPrototypeOf(NewBaseModel), BaseModel)
+
+    })
+
+    it('should return new object', () => {
+
+      assert.notEqual(NewBaseModel, BaseModel)
+
+    })
+
+    it('should include same properties', () => {
+
+      [
+        'clone',
+        'attach',
+        'detach'
+      ].forEach(p => {
+        assert.equal(!!NewBaseModel[p], true)
+      })
 
     })
 
