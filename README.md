@@ -2,6 +2,9 @@
 
 ORM/ODM for Node.js.
 
+  [![NPM version][npm-image]][npm-url]
+  [![build status][travis-image]][travis-url]
+  [![Test coverage][coveralls-image]][coveralls-url]
 
 ## Database
 
@@ -40,7 +43,7 @@ class Post extends Model {
     },
 
     // One-To-One
-    user: User,
+    user:       User,
 
     createdAt:  'date',
     updatedAt:  'date',
@@ -74,3 +77,10 @@ User.destory(spock)
 
 User.destory(1) // By Primary Key
 ```
+
+[npm-image]: https://img.shields.io/npm/v/transwrap.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/transwrap
+[travis-image]: https://img.shields.io/travis/trekjs/transwrap/master.svg?style=flat-square
+[travis-url]: https://travis-ci.org/trekjs/transwrap
+[coveralls-image]: https://img.shields.io/coveralls/trekjs/transwrap/master.svg?style=flat-square
+[coveralls-url]: https://coveralls.io/r/trekjs/transwrap?branch=master
