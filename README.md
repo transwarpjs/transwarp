@@ -1,4 +1,4 @@
-# transwrap (WIP)
+# transwarp (WIP)
 
 ORM/ODM for Node.js.
 
@@ -78,9 +78,9 @@ User.destory(spock)
 User.destory(1) // By Primary Key
 ```
 
-[npm-image]: https://img.shields.io/npm/v/transwrap.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/transwrap
-[travis-image]: https://img.shields.io/travis/trekjs/transwrap/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/trekjs/transwrap
-[coveralls-image]: https://img.shields.io/coveralls/trekjs/transwrap/master.svg?style=flat-square
-[coveralls-url]: https://coveralls.io/r/trekjs/transwrap?branch=master
+[npm-image]: https://img.shields.io/npm/v/transwarp.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/transwarp
+[travis-image]: https://img.shields.io/travis/trekjs/transwarp/master.svg?style=flat-square
+[travis-url]: https://travis-ci.org/trekjs/transwarp
+[coveralls-image]: https://img.shields.io/coveralls/trekjs/transwarp/master.svg?style=flat-square
+[coveralls-url]: https://coveralls.io/r/trekjs/transwarp?branch=master
