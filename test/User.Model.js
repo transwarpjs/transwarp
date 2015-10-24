@@ -4,7 +4,7 @@ import User from './fixtures/User'
 
 describe('User Model', () => {
 
-  describe('#schema', () => {
+  describe('.schema', () => {
 
     it ('should return a schema object', () => {
 
@@ -14,7 +14,7 @@ describe('User Model', () => {
 
   })
 
-  describe('#attributes', () => {
+  describe('.attributes', () => {
 
     it('should get all attributes from schema', () => {
 
