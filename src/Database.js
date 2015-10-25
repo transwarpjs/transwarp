@@ -73,7 +73,7 @@ export default class Database {
 
   clone() {
     const db = Object.create(this)
-    db.searcher = db.searcher.clone()
+    db.searcher = this.searcher.clone()
     return db
   }
 
@@ -101,7 +101,10 @@ export default class Database {
 
   // Query
 
-  // find() {}
+  find() {
+    return this.exec()
+  }
+
   // first() {}
   // last() {}
 

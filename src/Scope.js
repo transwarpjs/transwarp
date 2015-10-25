@@ -20,6 +20,11 @@ export default class Scope {
     return this.db.conn
   }
 
+  clone() {
+    const s = Object.create(this)
+    return s
+  }
+
   row(sql = '') {
     //const reg = new RegExp('\$\$', 'g')
     //this.sql = sql.replace(reg, '?')
