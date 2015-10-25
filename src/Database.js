@@ -61,20 +61,7 @@ export default class Database {
    * @return {Promise}
    */
   ping() {
-    return this.conn.then(({ client, done }) => {
-        return new Promise((resolve, reject) => {
-          client.query('', (err, result) => {
-            // release pool conn
-            done(err)
-
-            // error
-            if (err) return reject(err)
-
-            // response
-            resolve()
-          })
-        })
-      })
+    return this.exec()
   }
 
   get searcher() {
