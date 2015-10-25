@@ -3,25 +3,43 @@ export default class Searcher {
 
   constructor(db) {
     this.db = db
-    this.columns = []
-    this.whereClauses = []
+    this._columns = []
+    this._whereClauses = []
+    this._limit
+    this._skip
   }
 
   clone() {
     const s = Object.create(this)
-    s.columns = this.columns.slice()
-    s.whereClauses = this.whereClauses.slice()
+    s._columns = this._columns.slice()
+    s._whereClauses = this._whereClauses.slice()
     return s
   }
 
   select(query, ...args) {
-    this.columns.push({ query, args })
+    this._columns.push({ query, args })
     return this
   }
 
   where(query, ...args) {
-    this.whereClauses.push({ query, args })
+    this._whereClauses.push({ query, args })
     return this
   }
+
+  limit(n) {
+    this._limit = n
+    return this
+  }
+
+  skip() {
+    this._offset = n
+    return this
+  }
+
+  offset(n) {
+    return this.skip(n)
+  }
+
+
 
 }
