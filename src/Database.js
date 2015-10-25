@@ -17,6 +17,11 @@ export default class Database {
     })
   }
 
+  /**
+   * Connects the database
+   *
+   * @return {Promise}
+   */
   connect() {
     return this.driver.connect()
   }
@@ -34,9 +39,20 @@ export default class Database {
    * @return {Promise}
    */
   exec(sql = '', ...values) {
-    const scope = new Scope(this)
-    scope.build(sql, values)
-    return scope.exec()
+    return this.conn.then(({ client, done }) => {
+        return new Promise((resolve, reject) => {
+          client.query(sql, values, (err, result) => {
+            // release pool conn
+            done(err)
+
+            // error
+            if (err) return reject(err)
+
+            // response
+            resolve(result)
+          })
+        })
+      })
   }
 
   /**
@@ -91,6 +107,8 @@ export default class Database {
   update() {}
   delete() {}
 
+  // Query
+
   select(...args) {
     return this.clone().searcher.select(...args).db
   }
@@ -98,8 +116,6 @@ export default class Database {
   where(...args) {
     return this.clone().searcher.where(...args).db
   }
-
-  // Query
 
   find() {
     return this.exec()
