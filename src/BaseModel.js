@@ -137,7 +137,4 @@ export default class BaseModel extends EventEmitter {
     return this.db.from(this.tableName).find()
   }
 
-  // Row SQL
-  static exec() {}
-
 }

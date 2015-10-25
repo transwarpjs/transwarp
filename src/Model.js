@@ -39,9 +39,19 @@ export default class Model extends BaseModel {
   }
 
   // toJSON
-  // options = { except: [], only: [] }
-  toJSON(options) {
-    return JSON.stringify(this.state)
+  toJSON({ only, except } = { only: null, except: null }) {
+    var attrs = this.attributes
+
+    if (only && Array.isArray(only)) {
+      attrs = _.intersection(attrs, only)
+    } else if (except && Array.isArray(except)) {
+      attrs = _.without(attrs, ...except)
+    }
+
+    return _.pick(
+      this.state,
+      attrs
+    )
   }
 
   // toObject
