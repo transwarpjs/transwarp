@@ -123,32 +123,21 @@ export default class BaseModel extends EventEmitter {
     return o.save()
   }
 
-  static find() {}
+  static select(...args) {
+    this.db.select(...args)
+    return this
+  }
 
-  static first() {}
+  static where(...args) {
+    this.db.where(...args)
+    return this
+  }
 
-  static last() {}
-
-  static select() {}
-
-  static where() {}
-
-  static or() {}
-
-  static not() {}
-
-  static order() {}
-
-  static group() {}
-
-  static limit() {}
-
-  static offset() {}
-
-  static count() {}
-
-  static firstOrCreate() {}
+  static find() {
+    return this.db.from(this.tableName).find()
+  }
 
   // Row SQL
   static exec() {}
+
 }

@@ -85,6 +85,6 @@ export default class Model extends BaseModel {
    */
   delete() {}
 
-
   validate() {}
+
 }

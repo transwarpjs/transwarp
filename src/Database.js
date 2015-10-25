@@ -100,6 +100,10 @@ export default class Database {
     return this.clone().searcher.select(...args).db
   }
 
+  from(tableName = '') {
+    return this.clone().searcher.from(tableName).db
+  }
+
   where(...args) {
     return this.clone().searcher.where(...args).db
   }
@@ -108,27 +112,4 @@ export default class Database {
     return this.exec()
   }
 
-  // first() {}
-  // last() {}
-
-  // select() {}
-  // eq() {}
-  // gt() {}
-  // lt() {}
-  // gte() {}
-  // lte() {}
-  // neq() {}
-  // like() {}
-  // ilike() {}
-  // // full-text search
-  // fts() {}
-  // is() {}
-  // isnot() {}
-  // in() {}
-  // notin() {}
-  // not() {}
-  // or() {}
-
-  // Bulk inserts, From `csv`, `json`
-  // bulkInsert() {}
 }
