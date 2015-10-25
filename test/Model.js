@@ -46,6 +46,16 @@ describe('Model', () => {
 
   })
 
+  describe('#type', () => {
+
+    it('should return constructor name', () => {
+
+      assert.equal(m.type, Model.name)
+
+    })
+
+  })
+
   describe('#toJSON()', () => {
 
     it('should return all attributes', () => {
