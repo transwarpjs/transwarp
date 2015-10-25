@@ -18,9 +18,9 @@ describe('Searcher', () => {
 
     })
 
-    it('should not empty in `this.columns`', () => {
+    it('should not empty in `this._columns`', () => {
 
-      assert(searcher.columns.length > 0)
+      assert(searcher._columns.length > 0)
 
     })
 
@@ -30,13 +30,13 @@ describe('Searcher', () => {
 
     it('should return self', () => {
 
-      assert(searcher.where('name = ?', 'fangdun') === searcher)
+      assert(searcher.where('name = ?', 'spock') === searcher)
 
     })
 
-    it('should not empty in `this.whereClauses`', () => {
+    it('should not empty in `this._whereClauses`', () => {
 
-      assert(searcher.whereClauses.length > 0)
+      assert(searcher._whereClauses.length > 0)
 
     })
 
