@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import assert from 'assert'
+import BaseModel from '../src/BaseModel'
 import Model from '../src/Model'
 
 describe('Model', () => {
@@ -17,6 +18,32 @@ describe('Model', () => {
       username: 'jordan',
       email:    'jordan@nba.com'
     })
+  })
+
+  it('should extends BaseModel', () => {
+
+    assert.equal(Object.getPrototypeOf(Model), BaseModel)
+
+  })
+
+  describe('#ctor', () => {
+
+    it('should return Model Constructor', () => {
+
+      assert.equal(m.ctor, Model)
+
+    })
+
+  })
+
+  describe('#attributes', () => {
+
+    it('should return all schema attributes', () => {
+
+      assert.deepEqual(m.attributes, Object.keys(Model.schema))
+
+    })
+
   })
 
   describe('#toJSON()', () => {

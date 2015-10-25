@@ -54,18 +54,10 @@ export default class Model extends BaseModel {
     )
   }
 
-  // toObject
-  // options = { except: [], only: [] }
-  toObject(options) {}
-
   // Helper for console.log
-  // inspect
-  // options = { except: [], only: [] }
-  inspect(options) {}
-  toString(options) {
-    return this.inspect(options)
+  inspect(options) {
+    return this.toJSON(options)
   }
-
 
   // CRUD FOR THEINSTANCE
 
