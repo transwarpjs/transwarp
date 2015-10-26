@@ -185,4 +185,11 @@ export default class BaseModel extends EventEmitter {
     })
   }
 
+  static update(...args) {
+    return this.db.from(this.tableName).update(...attrs).then(result => {
+      console.log(result)
+      return result
+    })
+  }
+
 }

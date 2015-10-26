@@ -7,6 +7,7 @@ export default class Searcher {
     this._whereClauses = []
     this._groupClauses = []
     this._sortClauses = []
+    this._updateColumns = []
     this._tableName = null
   }
 
@@ -20,6 +21,8 @@ export default class Searcher {
     s._groupClauses = this._groupClauses.slice()
     // override reference
     s._sortClauses = this._sortClauses.slice()
+    // override reference
+    s._updateColumns = this._updateColumns.slice()
     // s._limit = null
     // s._skip = null
     return s
@@ -59,6 +62,11 @@ export default class Searcher {
   // order
   sort(...args) {
     this._sortClauses.push(...args)
+    return this
+  }
+
+  update(...args) {
+    this._updateColumns.push(...args)
     return this
   }
 

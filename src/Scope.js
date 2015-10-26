@@ -40,32 +40,30 @@ export default class Scope {
   }
   */
 
-  build(searcher) {
-
-    // TODO: need improve
+  select(searcher) {
 
     var values = []
-
     const command = 'SELECT'
 
-    const tableName = searcher._tableName.trim()
+    const table = searcher._tableName.trim()
 
     const columns = _.uniq(searcher._selectColumns.map((item) => {
       return item
       //return item.query
-    })).join(', ').trim()
+    })).join(', ').trim() || '*'
 
-    var wheres = searcher._whereClauses.map((item) => {
+    var where = searcher._whereClauses.map((item) => {
       values = values.concat(item.args)
       return item.query
     }).join(' AND ').trim()
-    if (wheres.length) wheres = ' WHERE ' + wheres
+    if (where.length) where = ' WHERE ' + where
 
     var group = searcher._groupClauses.map(item => {
       return item
     }).join(', ').trim()
     if (group.length) group = ' GROUP BY ' + group
 
+    // TODO: Don't add limit if querying directly on the pk
     const limit = searcher._limit ? ` LIMIT ${searcher._limit}` : ''
 
     const offset = searcher._skip ? ` OFFSET ${searcher._skip}` : ''
@@ -75,8 +73,47 @@ export default class Scope {
     }).join(', ').trim()
     if (order.length) order = ' ORDER BY ' + order
 
-    this.sql = `${command} ${columns || '*'} FROM ${tableName}${wheres}${group}${order}${limit}${offset}`
+    this.sql = `${command} ${columns || '*'} FROM ${table}${where}${group}${order}${limit}${offset}`
     this.values = values
+  }
+
+  update(searcher) {
+    var values = []
+    const command = 'UPDATE'
+
+    const table = searcher._tableName.trim()
+
+    var columns = _.uniq(searcher._selectColumns.map((item) => {
+      return item
+      //return item.query
+    })).join(', ').trim()
+    if (columns) columns = ' RETURNING ' + columns
+
+    var updates = searcher._updateColumns.map(item => {
+      return item
+    }).join(', ').trim()
+
+    var where = searcher._whereClauses.map((item) => {
+      values = values.concat(item.args)
+      return item.query
+    }).join(' AND ').trim()
+    if (where.length) where = ' WHERE ' + where
+
+    this.sql = `${command} ${table} SET ${updates}${where}${columns}`
+    this.values = values
+  }
+
+  build(command, searcher) {
+
+    // TODO: need improve
+
+    switch (command) {
+      case 'SELECT':
+        return this.select(searcher)
+      case 'UPDATE':
+        return this.update(searcher)
+    }
+
   }
 
 }

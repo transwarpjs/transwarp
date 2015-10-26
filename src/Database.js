@@ -130,7 +130,7 @@ export default class Database {
   // rows
   find() {
     const scope = this.scope.clone()
-    scope.build(this.searcher)
+    scope.build('SELECT', this.searcher)
     console.log('   sql:', scope.sql)
     console.log('values:', scope.values)
     return this.exec(scope.sql, scope.values).then(({ rows }) => {
@@ -146,7 +146,17 @@ export default class Database {
     })
   }
 
-  count() {
+  count() {}
+
+  update(...attrs) {
+    const scope = this.scope.clone()
+    this.searcher.update(...attrs)
+    scope.build('UPDATE', this.searcher)
+    console.log('   sql:', scope.sql)
+    console.log('values:', scope.values)
+    return this.exec(scope.sql, scope.values).then(({ rows }) => {
+      return rows
+    })
   }
 
 }
