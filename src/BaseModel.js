@@ -68,6 +68,8 @@ export default class BaseModel extends EventEmitter {
   // Clone
   static clone() {
     const m = Object.create(this)
+    // TODO: when use `Object.create` just return an object not original Function
+    m.class = this.class || this
     return m
   }
 
@@ -124,17 +126,63 @@ export default class BaseModel extends EventEmitter {
   }
 
   static select(...args) {
-    this.db.select(...args)
-    return this
+    const m = this.clone()
+    // TODO: override, must be?
+    m.db = m.db.select(...args)
+    return m
   }
 
   static where(...args) {
-    this.db.where(...args)
-    return this
+    const m = this.clone()
+    // TODO: override, must be?
+    m.db = m.db.where(...args)
+    return m
+  }
+
+  static group(...args) {
+    const m = this.clone()
+    // TODO: override, must be?
+    m.db = m.db.group(...args)
+    return m
+  }
+
+  static limit(n) {
+    const m = this.clone()
+    // TODO: override, must be?
+    m.db = m.db.limit(n)
+    return m
+  }
+
+  static skip(n) {
+    const m = this.clone()
+    // todo: override, must be?
+    m.db = m.db.skip(n)
+    return m
+  }
+
+  static sort(...args) {
+    const m = this.clone()
+    // todo: override, must be?
+    m.db = m.db.sort(...args)
+    return m
   }
 
   static find() {
-    return this.db.from(this.tableName).find()
+    const M = this.class || this
+    return this.db.from(this.tableName).find().then(rows => {
+      return rows.map(row => {
+        return new M(row)
+      })
+    })
+  }
+
+  static findOne() {
+    // TODO: maybe `this` comes from `Object.create(this)`
+    //        so need store the constructor
+    const M = this.class || this
+    return this.db.from(this.tableName).findOne().then(row => {
+      return row ? new M(row) : null
+    })
   }
 
 }

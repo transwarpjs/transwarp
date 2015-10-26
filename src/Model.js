@@ -40,7 +40,7 @@ export default class Model extends BaseModel {
 
   // toJSON
   toJSON({ only, except } = { only: null, except: null }) {
-    var attrs = this.attributes
+    let attrs = this.attributes
 
     if (only && Array.isArray(only)) {
       attrs = _.intersection(attrs, only)
@@ -72,7 +72,7 @@ export default class Model extends BaseModel {
    * @return {Promise}
    */
   save() {
-    //return
+    // return
   }
 
   /**

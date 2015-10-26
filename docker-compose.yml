@@ -1,0 +1,17 @@
+
+postgres:
+  #build: docker/postgres
+  image: postgres
+  ports:
+    - "15432:5432"
+  environment:
+    POSTGRES_DB: transwarp_test
+
+mysql:
+  #build: docker/mysql
+  image: mysql
+  ports:
+    - "13306:3306"
+  environment:
+    MYSQL_ALLOW_EMPTY_PASSWORD: yes
+    MYSQL_DATABASE: transwarp_test

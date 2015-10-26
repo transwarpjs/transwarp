@@ -3,21 +3,30 @@ export default class Searcher {
 
   constructor(db) {
     this.db = db
-    this._columns = []
+    this._selectColumns = []
     this._whereClauses = []
+    this._groupClauses = []
+    this._sortClauses = []
+    this._tableName = null
   }
 
   clone() {
     const s = Object.create(this)
     // override reference
-    s._columns = this._columns.slice()
+    s._selectColumns = this._selectColumns.slice()
     // override reference
     s._whereClauses = this._whereClauses.slice()
+    // override reference
+    s._groupClauses = this._groupClauses.slice()
+    // override reference
+    s._sortClauses = this._sortClauses.slice()
+    // s._limit = null
+    // s._skip = null
     return s
   }
 
-  select(query, ...args) {
-    this._columns.push({ query, args })
+  select(...columns) {
+    this._selectColumns.push(...columns)
     return this
   }
 
@@ -31,23 +40,31 @@ export default class Searcher {
     return this
   }
 
+  group(...columns) {
+    this._groupClauses.push(...columns)
+    return this
+  }
+
   limit(n) {
     this._limit = n
     return this
   }
 
-  skip() {
-    this._offset = n
+  // offset
+  skip(n) {
+    this._skip = n
     return this
   }
 
-  offset(n) {
-    return this.skip(n)
+  // order
+  sort(...args) {
+    this._sortClauses.push(...args)
+    return this
   }
 
   toJSON() {
     return {
-      columns: this._columns,
+      columns: this._selectColumns,
       table: this._tableName,
       where: this._whereClauses
     }
