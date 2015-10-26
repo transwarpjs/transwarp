@@ -6,9 +6,17 @@ node_js:
 
 addons:
   postgresql: "9.4"
+  mysql: "5.7"
+
+env:
+  - DB=sqlite
+  - DB=mysql
+  - DB=postgres
 
 before_script:
-  - "psql -c 'create database transwrap_test;' -U postgres"
+  - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'DROP DATABASE IF EXISTS transwrap_test;' -U postgres; fi"
+  - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'create database IF NOT EXISTS transwrap_test;'; fi"
+
 
 script: "npm run test-travis"
 
