@@ -10,6 +10,17 @@ export default {
         resolve({ client, done })
       })
     })
+  },
+
+  ping() {
+    return this.connect().then(({ client, done }) => {
+      return new Promise((resolve, reject) => {
+        client.query('', err => {
+          done()
+          err ? reject(err) : resolve()
+        })
+      })
+    })
   }
 
 }

@@ -62,6 +62,7 @@ export default class Database {
    * @return {Promise}
    */
   ping() {
+    if (this.driver.ping) return this.driver.ping()
     return this.exec('/* ping */ SELECT 1;')
   }
 
