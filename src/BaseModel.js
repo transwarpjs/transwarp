@@ -122,7 +122,7 @@ export default class BaseModel extends EventEmitter {
    * @return {Promise}
    */
   static update(o) {
-    return o.save()
+    return
   }
 
   static select(...args) {
@@ -167,6 +167,11 @@ export default class BaseModel extends EventEmitter {
     return m
   }
 
+  /**
+   * Gets models
+   *
+   * @return {Promise<[]Model>}
+   */
   static find() {
     const M = this.class || this
     return this.db.from(this.tableName).find().then(rows => {
@@ -176,17 +181,36 @@ export default class BaseModel extends EventEmitter {
     })
   }
 
-  static findOne() {
+  /**
+   * Gets first model
+   *
+   * @return {Promise<Model>}
+   */
+  static first() {
     // TODO: maybe `this` comes from `Object.create(this)`
     //        so need store the constructor
     const M = this.class || this
-    return this.db.from(this.tableName).findOne().then(row => {
+    return this.db.from(this.tableName).first().then(row => {
       return row ? new M(row) : null
     })
   }
 
-  static update(...args) {
-    return this.db.from(this.tableName).update(...attrs).then(result => {
+  /**
+   * Gets last model
+   *
+   * @return {Promise<Model>}
+   */
+  static last() {
+    // TODO: maybe `this` comes from `Object.create(this)`
+    //        so need store the constructor
+    const M = this.class || this
+    return this.db.from(this.tableName).last().then(row => {
+      return row ? new M(row) : null
+    })
+  }
+
+  static update(args) {
+    return this.db.from(this.tableName).update(attrs).then(result => {
       console.log(result)
       return result
     })

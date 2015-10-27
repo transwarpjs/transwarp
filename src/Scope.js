@@ -89,9 +89,11 @@ export default class Scope {
     })).join(', ').trim()
     if (columns) columns = ' RETURNING ' + columns
 
-    var updates = searcher._updateColumns.map(item => {
-      return item
+    var updates = Object.keys(searcher._updateColumns).map(item => {
+      return item + ' = ' + searcher._updateColumns[item]
     }).join(', ').trim()
+
+    if (!updates) throw new Error('Must set columns!')
 
     var where = searcher._whereClauses.map((item) => {
       values = values.concat(item.args)

@@ -1,8 +1,7 @@
-
 export default class Searcher {
 
-  constructor(db) {
-    this.db = db
+  constructor(/* db */) {
+    // this.db = db
     this._selectColumns = []
     this._whereClauses = []
     this._groupClauses = []
@@ -22,7 +21,7 @@ export default class Searcher {
     // override reference
     s._sortClauses = this._sortClauses.slice()
     // override reference
-    s._updateColumns = this._updateColumns.slice()
+    s._updateColumns = Object.create(this._updateColumns)
     // s._limit = null
     // s._skip = null
     return s
@@ -65,8 +64,8 @@ export default class Searcher {
     return this
   }
 
-  update(...args) {
-    this._updateColumns.push(...args)
+  update(attrs = null) {
+    this._updateColumns = attrs
     return this
   }
 
