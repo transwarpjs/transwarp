@@ -47,14 +47,17 @@ export default class Scope {
 
     const table = searcher._tableName.trim()
 
-    const columns = _.uniq(searcher._selectColumns.map((item) => {
+    const columns = _.uniq(searcher._selectionSet.map((item) => {
       return item
-      //return item.query
-    })).join(', ').trim() || '*'
+    })).join(', ').trim()
 
-    var where = searcher._whereClauses.map((item) => {
-      values = values.concat(item.args)
-      return item.query
+    var where = searcher._whereCondition.map(({ column, operator, value }) => {
+
+      if (operator === 'IN' || operator === 'NOT IN') {
+        value = `(${value})`
+      }
+
+      return `${column} ${operator} ${value}`
     }).join(' AND ').trim()
     if (where.length) where = ' WHERE ' + where
 
@@ -83,7 +86,7 @@ export default class Scope {
 
     const table = searcher._tableName.trim()
 
-    var columns = _.uniq(searcher._selectColumns.map((item) => {
+    var columns = _.uniq(searcher._selectionSet.map((item) => {
       return item
       //return item.query
     })).join(', ').trim()
@@ -95,7 +98,7 @@ export default class Scope {
 
     if (!updates) throw new Error('Must set columns!')
 
-    var where = searcher._whereClauses.map((item) => {
+    var where = searcher._whereCondition.map((item) => {
       values = values.concat(item.args)
       return item.query
     }).join(' AND ').trim()

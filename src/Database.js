@@ -229,4 +229,90 @@ export default class Database {
 
   // save() {}
 
+
+  // Query Shorthands
+
+  /*
+  or(column, value) {
+    const db = this.clone()
+    db.searcher.where(column, 'OR', value)
+    return db
+  }
+  */
+
+  eq(column, value) {
+    const db = this.clone()
+    db.searcher.where(column, '=', value)
+    return db
+  }
+
+  gt(column, value) {
+    const db = this.clone()
+    db.searcher.where(column, '>', value)
+    return db
+  }
+
+  lt(column, value) {
+    const db = this.clone()
+    db.searcher.where(column, '<', value)
+    return db
+  }
+
+  gte(column, value) {
+    const db = this.clone()
+    db.searcher.where(column, '>=', value)
+    return db
+  }
+
+  lte(column, value) {
+    const db = this.clone()
+    db.searcher.where(column, '<=', value)
+    return db
+  }
+
+  neq(column, value) {
+    const db = this.clone()
+    db.searcher.where(column, '<>', value)
+    return db
+  }
+
+  like(column, value) {
+    const db = this.clone()
+    db.searcher.where(column, 'LIKE', value)
+    return db
+  }
+
+  ilike(column, value) {
+    const db = this.clone()
+    db.searcher.where(column, 'ILIKE', value)
+    return db
+  }
+
+  // (null, true, false)
+  is(column, value) {
+    const db = this.clone()
+    db.searcher.where(column, 'IS', value)
+    return db
+  }
+
+  isnot(column, value) {
+    const db = this.clone()
+    db.searcher.where(column, 'IS NOT', value)
+    return db
+  }
+
+  // 1 IN (1,2,3,4)
+  in(column, value) {
+    const db = this.clone()
+    db.searcher.where(column, 'IN', value)
+    return db
+  }
+
+  // 1 NOT IN (1,2,3,4)
+  notin(column, value) {
+    const db = this.clone()
+    db.searcher.where(column, 'NOT IN', value)
+    return db
+  }
+
 }
