@@ -33,11 +33,11 @@ export default class Database {
   }
 
   /**
-   * Row SQL
+   * Executes Row SQL
    *
    * @param {String} sql
    * @param {*} values
-   * @return {Promise}
+   * @return {Promise.<Result>}
    */
   exec(sql = '', values) {
     return this.conn.then(({ client, done }) => {
@@ -128,7 +128,11 @@ export default class Database {
     return this.clone().searcher.sort(...args).db
   }
 
-  // rows
+  /**
+   * Executes a query that returns rows
+   *
+   * @return {Promise.<[]Model>}
+   */
   find() {
     const scope = this.scope.clone()
     scope.build('SELECT', this.searcher)
@@ -139,7 +143,11 @@ export default class Database {
     })
   }
 
-  // row
+  /**
+   * Executes a query that returns row
+   *
+   * @return {Promise.<Model>}
+   */
   findOne() {
     this.searcher.limit(1)
     return this.find().then(rows => {

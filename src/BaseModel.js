@@ -155,14 +155,14 @@ export default class BaseModel extends EventEmitter {
 
   static skip(n) {
     const m = this.clone()
-    // todo: override, must be?
+    // TODO: override, must be?
     m.db = m.db.skip(n)
     return m
   }
 
   static sort(...args) {
     const m = this.clone()
-    // todo: override, must be?
+    // TODO: override, must be?
     m.db = m.db.sort(...args)
     return m
   }
