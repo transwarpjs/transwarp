@@ -21,11 +21,10 @@
     "mongodb": "^2.0.46",
     "mysql": "^2.9.0",
     "pg": "^4.4.3",
-    "pg-native": "^1.9.0",
     "sqlite3": "^3.1.0"
   },
   "babel": {
-    "stage": 1,
+    "stage": 0,
     "optional": [
       "es7.classProperties"
     ],
