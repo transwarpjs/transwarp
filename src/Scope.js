@@ -114,7 +114,11 @@ export default class Scope {
     const command = 'INSERT INTO'
     const table = searcher._tableName
     const where = ''
-    const returning = ''
+    var returning = _.uniq(searcher._selectionSet.map((item) => {
+      return item
+      //return item.query
+    })).join(', ').trim()
+    if (returning) returning = ' RETURNING ' + returning
 
     var columns = []
     var placeholders = []

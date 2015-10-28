@@ -187,12 +187,15 @@ export default class BaseModel extends EventEmitter {
    *    // => `COMMIT;`
    *
    * @param {Object} attrs
-   * @return {Promise}
+   * @return {Promise<Model>}
    */
   static create(value) {
     if (!(value instanceof BaseModel)) value = new this(value)
-    return this.db.create(value).then(result => {
-      return result
+    return this.db.create(value).then(row => {
+      if (row) {
+        Object.keys(row).forEach(field => value.set(field, row[field]))
+      }
+      return value
     })
   }
 
@@ -205,12 +208,15 @@ export default class BaseModel extends EventEmitter {
    *    // => `UPDATE users SET field = value WHERE id = 1;`
    *
    * @param {Object} object - An instance of the Model
-   * @return {Promise}
+   * @return {Promise<Model>}
    */
   static update(value) {
     if (!(value instanceof BaseModel)) value = new this(value)
-    return this.db.update(value).then(result => {
-      return result
+    return this.db.update(value).then(row => {
+      if (row) {
+        Object.keys(row).forEach(field => value.set(field, row[field]))
+      }
+      return value
     })
   }
 

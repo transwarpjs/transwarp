@@ -102,6 +102,7 @@ export default class Searcher {
 
   create(attrs = null) {
     this._fieldSet = attrs
+    this._selectionSet.push('id')
     return this
   }
 

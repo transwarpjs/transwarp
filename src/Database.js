@@ -225,10 +225,9 @@ export default class Database {
     const scope = db.scope.clone()
     db.searcher.create(value.toJSON())
     scope.build('CREATE', db.searcher)
-    return db.exec(scope.sql, scope.values)
-      .then(({ rows }) => {
-        return rows[0]
-      })
+    return db.exec(scope.sql, scope.values).then(({ rows }) => {
+      return rows[0]
+    })
   }
 
   update(value) {
@@ -242,10 +241,9 @@ export default class Database {
     const scope = db.scope.clone()
     db.searcher.update(value.toJSON())
     scope.build('UPDATE', db.searcher)
-    return db.exec(scope.sql, scope.values)
-      .then(({ rows }) => {
-        return rows
-      })
+    return db.exec(scope.sql, scope.values).then(({ rows }) => {
+      return rows[0]
+    })
   }
 
 
