@@ -47,7 +47,7 @@ export default class Database {
   exec(sql = '', values) {
     return this.conn.then(({ client, done }) => {
       return new Promise((resolve, reject) => {
-        console.log('   sql:', String.raw`${sql}`)
+        console.log('   sql:', sql)
         console.log('values:', values)
         client.query(sql, values, (err, result) => {
           // release pool conn
@@ -67,7 +67,7 @@ export default class Database {
    */
   ping() {
     if (this.driver.ping) return this.driver.ping()
-    return this.exec('/* ping */ SELECT 1;')
+    return Promise.reject(new Error('`Database#ping` need implement!'))
   }
 
   /**
