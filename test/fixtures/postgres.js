@@ -1,4 +1,6 @@
-import pg from 'pg'
+import _pg from 'pg'
+
+const pg = _pg.native
 
 export default {
 

@@ -4,10 +4,11 @@ import Model from './Model'
 
 export default class Database {
 
-  constructor({ driver, dialect, dsn }) {
+  constructor({ driver, dialect, dsn, logger }) {
     this.dialect = dialect
     this.driver = driver
     this.dsn = dsn
+    this.logger = logger
     this.scope = new Scope(/* this */)
 
     Object.defineProperty(this.driver, 'db', {
@@ -46,6 +47,8 @@ export default class Database {
   exec(sql = '', values) {
     return this.conn.then(({ client, done }) => {
       return new Promise((resolve, reject) => {
+        console.log('   sql:', String.raw`${sql}`)
+        console.log('values:', values)
         client.query(sql, values, (err, result) => {
           // release pool conn
           done(err)
@@ -164,8 +167,6 @@ export default class Database {
   find() {
     const scope = this.scope.clone()
     scope.build('SELECT', this.searcher)
-    console.log('   sql:', scope.sql)
-    console.log('values:', scope.values)
     return this.exec(scope.sql, scope.values).then(({ rows }) => {
       return rows
     })
@@ -224,8 +225,6 @@ export default class Database {
     const scope = db.scope.clone()
     db.searcher.create(value.toJSON())
     scope.build('CREATE', db.searcher)
-    console.log('   sql:', scope.sql)
-    console.log('values:', scope.values)
     return db.exec(scope.sql, scope.values)
       .then(({ rows }) => {
         return rows[0]
@@ -243,8 +242,6 @@ export default class Database {
     const scope = db.scope.clone()
     db.searcher.update(value.toJSON())
     scope.build('UPDATE', db.searcher)
-    console.log('   sql:', scope.sql)
-    console.log('values:', scope.values)
     return db.exec(scope.sql, scope.values)
       .then(({ rows }) => {
         return rows
