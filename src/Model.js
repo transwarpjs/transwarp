@@ -72,7 +72,9 @@ export default class Model extends BaseModel {
    * @return {Promise}
    */
   save() {
-    return this.ctor.update(this)
+    const id = this.get('id')
+    const action = id ? 'update' : 'create'
+    return this.ctor[action](this)
   }
 
   /**

@@ -11,6 +11,7 @@ export default class Searcher {
 
     this._selectionSet = []
     this._whereCondition = []
+    this._fieldSet = null
   }
 
   clone() {
@@ -25,6 +26,7 @@ export default class Searcher {
     s._sortClauses = this._sortClauses.slice()
     // override reference
     s._updateColumns = Object.create(this._updateColumns)
+    s._fieldSet = Object.create(this._fieldSet)
     // s._limit = null
     // s._skip = null
     return s
@@ -95,6 +97,11 @@ export default class Searcher {
 
   update(attrs = null) {
     this._updateColumns = attrs
+    return this
+  }
+
+  create(attrs = null) {
+    this._fieldSet = attrs
     return this
   }
 

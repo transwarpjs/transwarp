@@ -108,6 +108,30 @@ export default class Scope {
     this.values = values
   }
 
+  create(searcher) {
+    var values = []
+
+    const command = 'INSERT INTO'
+    const table = searcher._tableName
+    const where = ''
+    const returning = ''
+
+    var columns = []
+    var placeholders = []
+    Object.keys(searcher._fieldSet).forEach((field, i) => {
+      columns.push(field)
+      placeholders.push(`\$${i+1}`)
+      values.push(searcher._fieldSet[field])
+    })
+
+    columns = columns.length ? `(${columns})` : ''
+    placeholders = placeholders.length ? `(${placeholders})` : ''
+    const values_clause = placeholders.length ? 'VALUES' : 'DEFAULT VALUES'
+
+    this.sql = `${command} ${table} ${columns} ${values_clause} ${placeholders}${where}${returning}`
+    this.values = values
+  }
+
   build(command, searcher) {
 
     // TODO: need improve
@@ -117,6 +141,8 @@ export default class Scope {
         return this.select(searcher)
       case 'UPDATE':
         return this.update(searcher)
+      case 'CREATE':
+        return this.create(searcher)
     }
 
   }

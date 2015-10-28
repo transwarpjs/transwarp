@@ -74,26 +74,6 @@ export default class BaseModel extends EventEmitter {
   }
 
   /**
-   * Creates an instance of the Model
-   *
-   * @example
-   *
-   *    // For RDB
-   *
-   *    User.create({})
-   *    // => `BEGIN TRANSACTION;`
-   *    // => `INSERT INTO users () VALUES ();`
-   *    // => `COMMIT;`
-   *
-   * @param {Object} attrs
-   * @return {Promise}
-   */
-  static create(attrs) {
-    const v = new this(attrs)
-    return v.save()
-  }
-
-  /**
    * Destroys records by Key
    *
    * @example
@@ -108,21 +88,6 @@ export default class BaseModel extends EventEmitter {
    */
   static destroy(...ids) {
     ids = _.flattenDeep(ids)
-  }
-
-  /**
-   * Updates an instance
-   *
-   * @example
-   *
-   *    User.update(user)
-   *    // => `UPDATE users SET field = value WHERE id = 1;`
-   *
-   * @param {Object} object - An instance of the Model
-   * @return {Promise}
-   */
-  static update(o) {
-    return
   }
 
   static select(...args) {
@@ -209,9 +174,42 @@ export default class BaseModel extends EventEmitter {
     })
   }
 
-  static update(args) {
-    return this.db.from(this.tableName).update(attrs).then(result => {
-      console.log(result)
+  /**
+   * Creates an instance of the Model
+   *
+   * @example
+   *
+   *    // For RDB
+   *
+   *    User.create({})
+   *    // => `BEGIN TRANSACTION;`
+   *    // => `INSERT INTO users () VALUES ();`
+   *    // => `COMMIT;`
+   *
+   * @param {Object} attrs
+   * @return {Promise}
+   */
+  static create(value) {
+    if (!(value instanceof BaseModel)) value = new this(value)
+    return this.db.create(value).then(result => {
+      return result
+    })
+  }
+
+  /**
+   * Updates an instance
+   *
+   * @example
+   *
+   *    User.update(user)
+   *    // => `UPDATE users SET field = value WHERE id = 1;`
+   *
+   * @param {Object} object - An instance of the Model
+   * @return {Promise}
+   */
+  static update(value) {
+    if (!(value instanceof BaseModel)) value = new this(value)
+    return this.db.update(value).then(result => {
       return result
     })
   }

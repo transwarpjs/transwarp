@@ -18,9 +18,9 @@ describe('Searcher', () => {
 
     })
 
-    it('should not empty in `this._selectColumns`', () => {
+    it('should not empty in `this._selectionSet`', () => {
 
-      assert(searcher._selectColumns.length > 0)
+      assert(searcher._selectionSet.length > 0)
 
     })
 
@@ -34,9 +34,9 @@ describe('Searcher', () => {
 
     })
 
-    it('should not empty in `this._whereClauses`', () => {
+    it('should not empty in `this._whereCondition`', () => {
 
-      assert(searcher._whereClauses.length > 0)
+      assert(searcher._whereCondition.length > 0)
 
     })
 

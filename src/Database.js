@@ -1,5 +1,6 @@
 import Scope from './Scope'
 import Searcher from './Searcher'
+import Model from './Model'
 
 export default class Database {
 
@@ -200,17 +201,6 @@ export default class Database {
 
   count() {}
 
-  update(attrs) {
-    const scope = this.scope.clone()
-    this.searcher.update(attrs)
-    scope.build('UPDATE', this.searcher)
-    console.log('   sql:', scope.sql)
-    console.log('values:', scope.values)
-    return this.exec(scope.sql, scope.values).then(({ rows }) => {
-      return rows
-    })
-  }
-
   delete() {
     const scope = this.scope.clone()
     scope.build('DELETE', this.searcher)
@@ -224,8 +214,43 @@ export default class Database {
    * @return {Promise}
    */
   create(value) {
-    return value.save()
+    if (!(value instanceof Model)) {
+      return Promise.reject(
+        new TypeError('The value is not a Model Instance!')
+      )
+    }
+
+    const db = this.from(value.ctor.tableName)
+    const scope = db.scope.clone()
+    db.searcher.create(value.toJSON())
+    scope.build('CREATE', db.searcher)
+    console.log('   sql:', scope.sql)
+    console.log('values:', scope.values)
+    return db.exec(scope.sql, scope.values)
+      .then(({ rows }) => {
+        return rows[0]
+      })
   }
+
+  update(value) {
+    if (!(value instanceof Model)) {
+      return Promise.reject(
+        new TypeError('The value is not a Model Instance!')
+      )
+    }
+
+    const db = this.from(value.ctor.tableName)
+    const scope = db.scope.clone()
+    db.searcher.update(value.toJSON())
+    scope.build('UPDATE', db.searcher)
+    console.log('   sql:', scope.sql)
+    console.log('values:', scope.values)
+    return db.exec(scope.sql, scope.values)
+      .then(({ rows }) => {
+        return rows
+      })
+  }
+
 
   // save() {}
 
@@ -278,13 +303,13 @@ export default class Database {
 
   like(column, value) {
     const db = this.clone()
-    db.searcher.where(column, 'LIKE', value)
+    db.searcher.where(column, 'LIKE', quoteTag`${value}`)
     return db
   }
 
   ilike(column, value) {
     const db = this.clone()
-    db.searcher.where(column, 'ILIKE', value)
+    db.searcher.where(column, 'ILIKE', quoteTag`${value}`)
     return db
   }
 
@@ -316,3 +341,8 @@ export default class Database {
   }
 
 }
+
+function quoteTag(_, value) {
+  return `'${value}'`
+}
+
