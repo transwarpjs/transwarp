@@ -12,6 +12,7 @@ env:
   #- DB=sqlite
   - DB=mysql
   - DB=postgres
+  - CC=clang CXX=clang++ npm_config_clang=1 PGUSER=postgres PGDATABASE=postgres
 
 before_script:
   - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'DROP DATABASE IF EXISTS transwrap_test;' -U postgres; fi"
