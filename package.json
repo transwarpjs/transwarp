@@ -2,7 +2,7 @@
   "name": "transwarp",
   "version": "0.0.1",
   "description": "ORM for Node.js",
-  "main": "index.js",
+  "main": "src/transwarp",
   "scripts": {
     "test": "mocha --compilers js:babel/register --bail --check-leaks test",
     "test-cov": "babel-node node_modules/.bin/isparta cover node_modules/.bin/_mocha -- -u exports --bail --check-leaks test",

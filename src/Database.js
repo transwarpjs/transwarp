@@ -13,8 +13,8 @@ export default class Database {
 
     Object.defineProperty(this.driver, 'db', {
       enumerable: false,
-      configurable: false,
-      writable: false,
+      configurable: true,
+      writable: true,
       value: this
     })
   }

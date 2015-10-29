@@ -11,7 +11,7 @@ function open(name, dataSourceName) {
 
   const db = new Database({
     dialect: createDialect(name),
-    driver: driver,
+    driver: Object.create(driver),
     dsn: dataSourceName
   })
 
@@ -25,7 +25,11 @@ function register(name, driver) {
   if (drivers[name]) {
     throw new Error(`db: Register called twice for driver ${name}`)
   }
-  drivers[name] = driver
+
+  Object.defineProperty(drivers, name, {
+    enumerable: true,
+    value: driver
+  })
 }
 
 export default {
