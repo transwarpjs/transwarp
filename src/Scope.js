@@ -45,7 +45,7 @@ export default class Scope {
     var values = []
     const command = 'SELECT'
 
-    const table = searcher._tableName.trim()
+    const table = searcher._modelName.trim()
 
     const columns = _.uniq(searcher._selectionSet.map((item) => {
       return item
@@ -84,7 +84,7 @@ export default class Scope {
     var values = []
     const command = 'UPDATE'
 
-    const table = searcher._tableName.trim()
+    const table = searcher._modelName.trim()
 
     var columns = _.uniq(searcher._selectionSet.map((item) => {
       return item
@@ -112,7 +112,7 @@ export default class Scope {
     var values = []
 
     const command = 'INSERT INTO'
-    const table = searcher._tableName
+    const table = searcher._modelName
     const where = ''
     var returning = _.uniq(searcher._selectionSet.map((item) => {
       return item

@@ -8,14 +8,6 @@ export default class Queryable {
     // return this.clone().searcher.select(...args).db
   }
 
-  // Collection
-  from(tableName = '') {
-    const db = this.clone()
-    db.searcher.from(tableName)
-    return db
-    // return this.clone().searcher.from(tableName).db
-  }
-
   where(...args) {
     const db = this.clone()
     db.searcher.where(...args)

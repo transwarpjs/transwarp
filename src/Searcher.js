@@ -7,7 +7,7 @@ export default class Searcher {
     this._groupClauses = []
     this._sortClauses = []
     this._updateColumns = []
-    this._tableName = null
+    this._modelName = null
 
     this._selectionSet = []
     this._whereCondition = []
@@ -37,8 +37,8 @@ export default class Searcher {
     return this
   }
 
-  from(tableName, as = '') {
-    this._tableName = tableName
+  from(modelName, as = '') {
+    this._modelName = modelName
     this._as = ''
     return this
   }
@@ -109,7 +109,7 @@ export default class Searcher {
   toJSON() {
     return {
       columns: this._selectColumns,
-      table: this._tableName,
+      model: this._modelName,
       where: this._whereClauses
     }
   }

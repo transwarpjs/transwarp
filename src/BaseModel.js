@@ -11,7 +11,7 @@ export default class BaseModel extends EventEmitter {
   // e.g: postgres - public schema
   static schemaName = null
 
-  // return a human-readable description of this object.
+  // Returns a human-readable description of this object.
   static description = null
 
   /**
@@ -43,14 +43,14 @@ export default class BaseModel extends EventEmitter {
   }
 
   // User -> users
-  static get defaultTableName() {
+  static get defaultModelName() {
     return plural(this.name.toLowerCase())
   }
 
-  // e.g: custon table name
-  // static tableName = 'users'
-  static get tableName() {
-    return this.defaultTableName
+  // e.g: custon model name
+  // static modelName = 'users'
+  static get modelName() {
+    return this.defaultModelName
   }
 
   // Model Methods
@@ -62,15 +62,37 @@ export default class BaseModel extends EventEmitter {
 
   // Detach a database
   static detach() {
-    delete this.db
+    this.db = null
   }
+
+  static isCloned = false
 
   // Clone
   static clone() {
     const m = Object.create(this)
-    // TODO: when use `Object.create` just return an object not original Function
-    m.class = this.class || this
+
+    if (!m.isCloned) {
+      Object.defineProperty(m, 'Model', {
+        enumerable: true,
+        value: this
+      })
+      m.isCloned = true
+    }
+
     return m
+  }
+
+  // Basic CRUD
+
+  /**
+   * Gets models
+   *
+   * @return {Promise<[]Model>}
+  */
+  static find() {
+    return this.db.from(this).find().then(rows => {
+      return rows.map(row => new (getModel(this))(row))
+    })
   }
 
   /**
@@ -90,73 +112,14 @@ export default class BaseModel extends EventEmitter {
     ids = _.flattenDeep(ids)
   }
 
-  static select(...args) {
-    const m = this.clone()
-    // TODO: override, must be?
-    m.db = m.db.select(...args)
-    return m
-  }
-
-  static where(...args) {
-    const m = this.clone()
-    // TODO: override, must be?
-    m.db = m.db.where(...args)
-    return m
-  }
-
-  static group(...args) {
-    const m = this.clone()
-    // TODO: override, must be?
-    m.db = m.db.group(...args)
-    return m
-  }
-
-  static limit(n) {
-    const m = this.clone()
-    // TODO: override, must be?
-    m.db = m.db.limit(n)
-    return m
-  }
-
-  static skip(n) {
-    const m = this.clone()
-    // TODO: override, must be?
-    m.db = m.db.skip(n)
-    return m
-  }
-
-  static sort(...args) {
-    const m = this.clone()
-    // TODO: override, must be?
-    m.db = m.db.sort(...args)
-    return m
-  }
-
-  /**
-   * Gets models
-   *
-   * @return {Promise<[]Model>}
-   */
-  static find() {
-    const M = this.class || this
-    return this.db.from(this.tableName).find().then(rows => {
-      return rows.map(row => {
-        return new M(row)
-      })
-    })
-  }
-
   /**
    * Gets first model
    *
    * @return {Promise<Model>}
    */
   static first() {
-    // TODO: maybe `this` comes from `Object.create(this)`
-    //        so need store the constructor
-    const M = this.class || this
-    return this.db.from(this.tableName).first().then(row => {
-      return row ? new M(row) : null
+    return this.db.from(this).first().then(row => {
+      return row ? new (getModel(this))(row) : null
     })
   }
 
@@ -166,11 +129,8 @@ export default class BaseModel extends EventEmitter {
    * @return {Promise<Model>}
    */
   static last() {
-    // TODO: maybe `this` comes from `Object.create(this)`
-    //        so need store the constructor
-    const M = this.class || this
-    return this.db.from(this.tableName).last().then(row => {
-      return row ? new M(row) : null
+    return this.db.from(this).last().then(row => {
+      return row ? new (getModel(this))(row) : null
     })
   }
 
@@ -220,4 +180,8 @@ export default class BaseModel extends EventEmitter {
     })
   }
 
+}
+
+function getModel(m) {
+  return m.Model || m
 }

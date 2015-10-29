@@ -5,27 +5,27 @@ import BaseModel from '../src/BaseModel'
 describe('BaseModel', () => {
 
 
-  describe('.defaultTableName', () => {
+  describe('.defaultModelName', () => {
 
-    it('should get a table name by default', () => {
+    it('should get a model name by default', () => {
 
-      assert.equal(BaseModel.defaultTableName, 'basemodels')
+      assert.equal(BaseModel.defaultModelName, 'basemodels')
 
     })
 
   })
 
-  describe('.tableName', () => {
+  describe('.modelName', () => {
 
-    it('should equal to default table name', () => {
+    it('should equal to default model name', () => {
 
-      assert.equal(BaseModel.tableName, BaseModel.defaultTableName)
+      assert.equal(BaseModel.modelName, BaseModel.defaultModelName)
 
     })
 
-    it('should get a table name', () => {
+    it('should get a model name', () => {
 
-      assert.equal(BaseModel.tableName, 'basemodels')
+      assert.equal(BaseModel.modelName, 'basemodels')
 
     })
 
