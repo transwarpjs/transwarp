@@ -25,7 +25,7 @@ export default class Database {
    * @return {Promise<Connection>}
    */
   connect() {
-    return this.driver.connect()
+    return this.driver.connect(this.dsn)
   }
 
   /**
@@ -45,19 +45,8 @@ export default class Database {
    * @return {Promise<Result>}
    */
   exec(sql = '', values) {
-    return this.conn.then(({ client, done }) => {
-      return new Promise((resolve, reject) => {
-        console.log('   sql:', sql)
-        console.log('values:', values)
-        client.query(sql, values, (err, result) => {
-          // release pool conn
-          done(err)
-
-          // throw err or response result
-          err ? reject(err) : resolve(result)
-        })
-      })
-    })
+    if (this.driver.exec) return this.driver.exec(this.conn, sql, values)
+    return Promise.reject(new Error('`Database driver#exec()` need implement!'))
   }
 
   /**
@@ -66,8 +55,8 @@ export default class Database {
    * @return {Promise<Result>}
    */
   ping() {
-    if (this.driver.ping) return this.driver.ping()
-    return Promise.reject(new Error('`Database#ping` need implement!'))
+    if (this.driver.ping) return this.driver.ping(this.conn)
+    return Promise.reject(new Error('`Database driver#ping()` need implement!'))
   }
 
   /**
@@ -340,4 +329,3 @@ export default class Database {
 function quoteTag(_, value) {
   return `'${value}'`
 }
-
