@@ -15,3 +15,8 @@ mysql:
   environment:
     MYSQL_ALLOW_EMPTY_PASSWORD: yes
     MYSQL_DATABASE: transwarp_test
+
+mongo:
+  image: mongo
+  ports:
+    - "37017:27017"
