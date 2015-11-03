@@ -1,6 +1,18 @@
 
 export default class Queryable {
 
+  /**
+   * Executes Row SQL
+   *
+   * @param {String} sql - the row sql string
+   * @param {Array} values
+   * @return {Promise<Result>}
+   */
+  exec(sql = '', values) {
+    if (this.driver.exec) return this.driver.exec(this.conn, sql, values)
+    return Promise.reject(new Error('`Database driver#exec()` need implement!'))
+  }
+
   select(...args) {
     const db = this.clone()
     db.searcher.select(...args)

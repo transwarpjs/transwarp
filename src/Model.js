@@ -72,7 +72,7 @@ export default class Model extends BaseModel {
    * @return {Promise}
    */
   save() {
-    const id = this.get('id')
+    const id = this.get('id') || this.get('_id')
     const action = id ? 'update' : 'create'
     return this.ctor[action](this)
   }
@@ -87,8 +87,13 @@ export default class Model extends BaseModel {
    * @param {Object} attributes
    * @return {Promise}
    */
-  delete() {}
+  delete() {
+    const id = this.get('id') || this.get('_id')
+    return this.ctor.destroy(id)
+  }
 
-  validate() {}
+  validate() {
+    return this.ctor.validate(this.toJSON())
+  }
 
 }

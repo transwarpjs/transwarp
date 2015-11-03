@@ -110,6 +110,7 @@ export default class BaseModel extends EventEmitter {
    */
   static destroy(...ids) {
     ids = _.flattenDeep(ids)
+    return this.db.from(this).destroy(...ids)
   }
 
   /**
@@ -178,6 +179,10 @@ export default class BaseModel extends EventEmitter {
       }
       return value
     })
+  }
+
+  static validate(value) {
+    return
   }
 
 }
