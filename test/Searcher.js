@@ -1,3 +1,5 @@
+'use strict'
+
 import _ from 'lodash'
 import assert from 'assert'
 import Searcher from '../src/Searcher'

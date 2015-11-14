@@ -1,3 +1,5 @@
+'use strict'
+
 import mongodb from 'mongodb'
 
 const MongoClient = mongodb.MongoClient

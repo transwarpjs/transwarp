@@ -1,3 +1,5 @@
+'use strict'
+
 import _ from 'lodash'
 import assert from 'assert'
 import User from './fixtures/User'
@@ -18,7 +20,8 @@ describe('User Model', () => {
 
     it('should get all attributes from schema', () => {
 
-      assert.deepEqual(User.attributes, ['id', 'createdAt', 'updatedAt', 'deletedAt'])
+      assert.deepEqual(User.attributes,
+                       ['id', 'createdAt', 'updatedAt', 'deletedAt'])
 
     })
 

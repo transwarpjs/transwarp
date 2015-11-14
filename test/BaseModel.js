@@ -1,3 +1,5 @@
+'use strict'
+
 import _ from 'lodash'
 import assert from 'assert'
 import BaseModel from '../src/BaseModel'
@@ -78,9 +80,10 @@ describe('BaseModel', () => {
     it('should return a function', () => {
 
       assert.equal(_.isFunction(BaseModel.create), true)
-      //assert.equal(BaseModel.create().constructor, BaseModel)
-      //assert.equal(BaseModel.create() instanceof BaseModel, true)
-      //assert.equal(BaseModel.create().constructor, (new BaseModel).constructor)
+      assert.equal(BaseModel.create().constructor, BaseModel)
+      assert.equal(BaseModel.create() instanceof BaseModel, true)
+      assert.equal(BaseModel.create().constructor,
+                   (new BaseModel()).constructor)
 
     })
 
@@ -91,9 +94,6 @@ describe('BaseModel', () => {
     it('should return a function', () => {
 
       assert.equal(_.isFunction(BaseModel.destroy), true)
-      //assert.equal(BaseModel.create().constructor, BaseModel)
-      //assert.equal(BaseModel.create() instanceof BaseModel, true)
-      //assert.equal(BaseModel.create().constructor, (new BaseModel).constructor)
 
     })
 
