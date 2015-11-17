@@ -4,42 +4,48 @@
   "description": "ORM for Node.js",
   "main": "src/transwarp",
   "scripts": {
-    "test": "mocha --compilers js:babel/register --bail --check-leaks test",
+    "build": "babel src --out-dir lib",
+    "lint": "eslint src test",
+    "test": "mocha --compilers js:babel-core/register --bail --check-leaks test",
     "test-cov": "babel-node node_modules/.bin/isparta cover node_modules/.bin/_mocha -- -u exports --bail --check-leaks test",
     "test-travis": "babel-node node_modules/.bin/isparta cover --report lcovonly node_modules/.bin/_mocha -- -u exports --bail --check-leaks test"
   },
   "author": "Fangdun Cai <cfddream@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "babel": "^5.8.29",
+    "babel-core": "^6.1.21",
     "lodash": "^3.10.1",
-    "pluralize": "^1.2.1"
+    "pluralize": "^1.2.1",
+    "validator": "^4.2.1"
   },
   "devDependencies": {
-    "isparta": "^3.1.0",
-    "mocha": "^2.3.3",
-    "mongodb": "^2.0.47",
+    "babel-cli": "^6.1.18",
+    "babel-eslint": "^4.1.5",
+    "babel-plugin-transform-es2015-destructuring": "^6.1.18",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.1.20",
+    "babel-plugin-transform-es2015-parameters": "^6.1.18",
+    "babel-preset-stage-1": "^6.1.18",
+    "babel-preset-stage-2": "^6.1.18",
+    "babel-preset-stage-3": "^6.1.18",
+    "eslint": "^1.9.0",
+    "eslint-plugin-babel": "^2.1.1",
+    "isparta": "^4.0.0",
+    "mocha": "^2.3.4",
+    "mongodb": "^2.0.48",
     "mysql": "^2.9.0",
     "pg": "^4.4.3",
     "sqlite3": "^3.1.1"
   },
   "babel": {
-    "stage": 0,
-    "optional": [
-      "es7.classProperties"
+    "presets": [
+      "stage-1",
+      "stage-2",
+      "stage-3"
     ],
-    "blacklist": [
-      "es6.arrowFunctions",
-      "es6.blockScoping",
-      "es6.constants",
-      "es6.forOf",
-      "es6.properties.computed",
-      "es6.properties.shorthand",
-      "es6.regex.sticky",
-      "es6.regex.unicode",
-      "es6.tailCall",
-      "es6.templateLiterals",
-      "regenerator"
+    "plugins": [
+      "transform-es2015-destructuring",
+      "transform-es2015-modules-commonjs",
+      "transform-es2015-parameters"
     ]
   }
 }

@@ -1,16 +1,16 @@
+'use strict'
+
 import Database from './Database'
-import createDialect from './createDialect'
 
-const drivers = Object.create(null)
+export const drivers = Object.create(null)
 
-function open(name, dataSourceName) {
+export function open(name, dataSourceName) {
   const driver = drivers[name]
   if (!driver) {
     throw new Error(`db: unknown driver ${name} (forgotten import?)`)
   }
 
   const db = new Database({
-    dialect: createDialect(name),
     driver: Object.create(driver),
     dsn: dataSourceName
   })
@@ -18,7 +18,7 @@ function open(name, dataSourceName) {
   return db
 }
 
-function register(name, driver) {
+export function register(name, driver) {
   if (!driver) {
     throw new Error(`db: Register driver is null`)
   }
@@ -30,14 +30,4 @@ function register(name, driver) {
     enumerable: true,
     value: driver
   })
-}
-
-export default {
-
-  drivers,
-
-  open,
-
-  register
-
 }

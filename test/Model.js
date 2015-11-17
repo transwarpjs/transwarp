@@ -28,16 +28,6 @@ describe('Model', () => {
 
   })
 
-  describe('#ctor', () => {
-
-    it('should return Model Constructor', () => {
-
-      assert.equal(m.ctor, Model)
-
-    })
-
-  })
-
   describe('#attributes', () => {
 
     it('should return all schema attributes', () => {

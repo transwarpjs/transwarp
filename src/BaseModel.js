@@ -1,3 +1,5 @@
+'use strict'
+
 import _ from 'lodash'
 import EventEmitter from 'events'
 import { plural, singular } from 'pluralize'
@@ -5,14 +7,14 @@ import { plural, singular } from 'pluralize'
 export default class BaseModel extends EventEmitter {
 
   // database
-  static db = null
+  static db = undefined
 
   // http://www.postgresql.org/docs/current/static/ddl-schemas.html
   // e.g: postgres - public schema
-  static schemaName = null
+  static schemaName = undefined
 
   // Returns a human-readable description of this object.
-  static description = null
+  static description = undefined
 
   /**
    * Defines the Model Schema
@@ -53,8 +55,6 @@ export default class BaseModel extends EventEmitter {
     return this.defaultModelName
   }
 
-  // Model Methods
-
   // Attach a database
   static attach(db) {
     this.db = db
@@ -62,7 +62,7 @@ export default class BaseModel extends EventEmitter {
 
   // Detach a database
   static detach() {
-    this.db = null
+    this.db = undefined
   }
 
   static isCloned = false
@@ -85,13 +85,94 @@ export default class BaseModel extends EventEmitter {
   // Basic CRUD
 
   /**
+   * Creates an instance of the Model
+   *
+   * @example
+   *
+   *    // For RDB
+   *
+   *    User.create({})
+   *    // => `BEGIN TRANSACTION;`
+   *    // => `INSERT INTO users () VALUES ();`
+   *    // => `COMMIT;`
+   *
+   * @param {Object} attrs
+   * @return {Promise<Model>}
+   */
+  static create(value) {
+    if (!(value instanceof BaseModel)) {
+      const M = getModel(this)
+      value = new M(value)
+    }
+
+    return value.validate().then(vaild => {
+      return this.db.create(value).then(row => {
+        if (row) {
+          Object.keys(row).forEach(field => value.set(field, row[field]))
+        }
+        return value
+      })
+    })
+
+  }
+
+  /**
    * Gets models
    *
    * @return {Promise<[]Model>}
-  */
+   */
   static find() {
+    let M = getModel(this)
     return this.db.from(this).find().then(rows => {
-      return rows.map(row => new (getModel(this))(row))
+      return rows.map(row => new M(row))
+    })
+  }
+
+  /**
+   * Gets first model
+   *
+   * @return {Promise<Model>}
+   */
+  static first() {
+    const M = getModel(this)
+    return this.db.from(this).first().then(row => {
+      return row ? new M(row) : null
+    })
+  }
+
+  /**
+   * Gets last model
+   *
+   * @return {Promise<Model>}
+   */
+  static last() {
+    const M = getModel(this)
+    return this.db.from(this).last().then(row => {
+      return row ? new M(row) : null
+    })
+  }
+
+  /**
+   * Updates an instance
+   *
+   * @example
+   *
+   *    User.update(user)
+   *    // => `UPDATE users SET field = value WHERE id = 1;`
+   *
+   * @param {Object} object - An instance of the Model
+   * @return {Promise<Model>}
+   */
+  static update(value) {
+    if (!(value instanceof BaseModel)) {
+      const M = getModel(this)
+      value = new M(value)
+    }
+    return this.db.update(value).then(row => {
+      if (row) {
+        Object.keys(row).forEach(field => value.set(field, row[field]))
+      }
+      return value
     })
   }
 
@@ -113,76 +194,8 @@ export default class BaseModel extends EventEmitter {
     return this.db.from(this).destroy(...ids)
   }
 
-  /**
-   * Gets first model
-   *
-   * @return {Promise<Model>}
-   */
-  static first() {
-    return this.db.from(this).first().then(row => {
-      return row ? new (getModel(this))(row) : null
-    })
-  }
-
-  /**
-   * Gets last model
-   *
-   * @return {Promise<Model>}
-   */
-  static last() {
-    return this.db.from(this).last().then(row => {
-      return row ? new (getModel(this))(row) : null
-    })
-  }
-
-  /**
-   * Creates an instance of the Model
-   *
-   * @example
-   *
-   *    // For RDB
-   *
-   *    User.create({})
-   *    // => `BEGIN TRANSACTION;`
-   *    // => `INSERT INTO users () VALUES ();`
-   *    // => `COMMIT;`
-   *
-   * @param {Object} attrs
-   * @return {Promise<Model>}
-   */
-  static create(value) {
-    if (!(value instanceof BaseModel)) value = new this(value)
-    return this.db.create(value).then(row => {
-      if (row) {
-        Object.keys(row).forEach(field => value.set(field, row[field]))
-      }
-      return value
-    })
-  }
-
-  /**
-   * Updates an instance
-   *
-   * @example
-   *
-   *    User.update(user)
-   *    // => `UPDATE users SET field = value WHERE id = 1;`
-   *
-   * @param {Object} object - An instance of the Model
-   * @return {Promise<Model>}
-   */
-  static update(value) {
-    if (!(value instanceof BaseModel)) value = new this(value)
-    return this.db.update(value).then(row => {
-      if (row) {
-        Object.keys(row).forEach(field => value.set(field, row[field]))
-      }
-      return value
-    })
-  }
-
   static validate(value) {
-    return
+    // todo
   }
 
 }

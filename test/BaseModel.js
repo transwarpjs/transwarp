@@ -80,10 +80,6 @@ describe('BaseModel', () => {
     it('should return a function', () => {
 
       assert.equal(_.isFunction(BaseModel.create), true)
-      assert.equal(BaseModel.create().constructor, BaseModel)
-      assert.equal(BaseModel.create() instanceof BaseModel, true)
-      assert.equal(BaseModel.create().constructor,
-                   (new BaseModel()).constructor)
 
     })
 

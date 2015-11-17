@@ -1,14 +1,12 @@
+'use strict'
+
 import Scope from './Scope'
 import Searcher from './Searcher'
-import Queryable from './Queryable'
 import Model from './Model'
 
-export default class Database extends Queryable {
+export default class Database {
 
-  constructor({ dialect, driver, dsn, logger }) {
-    super()
-
-    this.dialect = dialect
+  constructor({ driver, dsn, logger }) {
     this.driver = driver
     this.dsn = dsn
     this.logger = logger
@@ -97,7 +95,45 @@ export default class Database extends Queryable {
   clone() {
     const db = Object.create(this)
     db.searcher = this.searcher.clone()
+    db.scope = this.scope.clone()
     return db
+  }
+
+  get dialect() {
+    return this.driver.dialect
+  }
+
+
+  // Basic CRUD
+
+  from(m) {
+    const db = this.clone()
+    db.searcher.from((m instanceof Model) ? m.modelName : m)
+    return db
+  }
+
+  create(value) {
+    this.searcher.create(value)
+    this.scope.build(this.searcher)
+    return this.driver.insert(this.conn, this.scope)
+  }
+
+  find() {
+    this.searcher.find();
+    this.scope.build(this.searcher)
+    return this.driver.find(this.conn, this.scope)
+  }
+
+  update() {
+    this.searcher.update();
+    this.scope.build(this.searcher)
+    return this.driver.update(this.conn, this.scope)
+  }
+
+  destroy() {
+    this.searcher.delete();
+    this.scope.build(this.searcher)
+    return this.driver.delete(this.conn, this.scope)
   }
 
 }

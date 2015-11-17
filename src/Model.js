@@ -1,3 +1,5 @@
+'use strict'
+
 import _ from 'lodash'
 import BaseModel from './BaseModel'
 
@@ -6,7 +8,7 @@ export default class Model extends BaseModel {
   constructor(state = null) {
     super()
 
-    const attrs = this.ctor.attributes
+    const attrs = this.constructor.attributes
 
     this.state = _.pick(
       state,
@@ -14,17 +16,12 @@ export default class Model extends BaseModel {
     )
   }
 
-  // Shorthand for the Model Constructor
-  get ctor() {
-    return this.constructor
-  }
-
   get attributes() {
-    return this.ctor.attributes
+    return this.constructor.attributes
   }
 
   get type() {
-    return this.ctor.name
+    return this.constructor.name
   }
 
   // Instance Methods
@@ -74,7 +71,7 @@ export default class Model extends BaseModel {
   save() {
     const id = this.get('id') || this.get('_id')
     const action = id ? 'update' : 'create'
-    return this.ctor[action](this)
+    return this.constructor[action](this)
   }
 
   /**
@@ -89,11 +86,11 @@ export default class Model extends BaseModel {
    */
   delete() {
     const id = this.get('id') || this.get('_id')
-    return this.ctor.destroy(id)
+    return this.constructor.destroy(id)
   }
 
   validate() {
-    return this.ctor.validate(this.toJSON())
+    return this.constructor.validate(this.toJSON())
   }
 
 }

@@ -2,31 +2,26 @@ import _ from 'lodash'
 
 export default class Searcher {
 
-  constructor(/* db */) {
-    // this.db = db
-    this._groupClauses = []
-    this._sortClauses = []
-    this._updateColumns = []
-    this._modelName = null
-
+  constructor() {
+    this._cmd = undefined
+    this._modelName = undefined
     this._selectionSet = []
-    this._whereCondition = []
+    this._whereConditions = []
+    this._sortConditions = []
+    this._groupConditions = []
+    this._updateColumns = []
     this._fieldSet = null
   }
 
   clone() {
     const s = Object.create(this)
-    // override reference
     s._selectionSet = this._selectionSet.slice()
-    // override reference
-    s._whereCondition = this._whereCondition.slice()
-    // override reference
-    s._groupClauses = this._groupClauses.slice()
-    // override reference
-    s._sortClauses = this._sortClauses.slice()
-    // override reference
+    s._whereConditions = this._whereConditions.slice()
+    s._sortConditions = this._sortConditions.slice()
+    s._groupConditions = this._groupConditions.slice()
     s._updateColumns = Object.create(this._updateColumns)
     s._fieldSet = Object.create(this._fieldSet)
+
     // s._limit = null
     // s._skip = null
     return s
@@ -68,13 +63,13 @@ export default class Searcher {
       operator = '='
     }
 
-    this._whereCondition.push({ column, operator, value })
+    this._whereConditions.push({ column, operator, value })
 
     return this
   }
 
   group(...columns) {
-    this._groupClauses.push(...columns)
+    this._groupConditions.push(...columns)
     return this
   }
 
@@ -91,26 +86,38 @@ export default class Searcher {
 
   // order
   sort(...args) {
-    this._sortClauses.push(...args)
+    this._sortConditions.push(...args)
     return this
   }
 
-  update(attrs = null) {
-    this._updateColumns = attrs
+  find() {
+    this._cmd = 'find'
     return this
   }
 
   create(attrs = null) {
+    this._cmd = 'insert'
     this._fieldSet = attrs
     this._selectionSet.push('*')
     return this
   }
 
+  update(attrs = null) {
+    this._cmd = 'update'
+    this._updateColumns = attrs
+    return this
+  }
+
+  delete() {
+    this._cmd = 'delete'
+    return this
+  }
+
   toJSON() {
     return {
-      columns: this._selectColumns,
+      columns: this._selectionSet,
       model: this._modelName,
-      where: this._whereClauses
+      where: this._whereConditions
     }
   }
 
