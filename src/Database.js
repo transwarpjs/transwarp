@@ -99,6 +99,11 @@ export default class Database {
     return db
   }
 
+  /**
+   * Gets current dialect
+   *
+   * @return {Object}
+   */
   get dialect() {
     return this.driver.dialect
   }
@@ -119,19 +124,31 @@ export default class Database {
   }
 
   find() {
-    this.searcher.find();
+    this.searcher.find()
+    this.scope.build(this.searcher)
+    return this.driver.find(this.conn, this.scope)
+  }
+
+  first() {
+    this.searcher.find().limit(1)
+    this.scope.build(this.searcher)
+    return this.driver.find(this.conn, this.scope)
+  }
+
+  last() {
+    this.searcher.find().limit(1).sort('id', 'DESC')
     this.scope.build(this.searcher)
     return this.driver.find(this.conn, this.scope)
   }
 
   update() {
-    this.searcher.update();
+    this.searcher.update()
     this.scope.build(this.searcher)
     return this.driver.update(this.conn, this.scope)
   }
 
   destroy() {
-    this.searcher.delete();
+    this.searcher.delete()
     this.scope.build(this.searcher)
     return this.driver.delete(this.conn, this.scope)
   }

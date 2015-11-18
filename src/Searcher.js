@@ -85,8 +85,8 @@ export default class Searcher {
   }
 
   // order
-  sort(...args) {
-    this._sortConditions.push(...args)
+  sort(column, flag) {
+    this._sortConditions.push([column, flag])
     return this
   }
 

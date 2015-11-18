@@ -105,13 +105,16 @@ export default class BaseModel extends EventEmitter {
       value = new M(value)
     }
 
-    return value.validate().then(vaild => {
-      return this.db.create(value).then(row => {
-        if (row) {
-          Object.keys(row).forEach(field => value.set(field, row[field]))
-        }
-        return value
-      })
+    const error = value.validate()
+
+    // throw error
+    if (error) return Promise.reject(error)
+
+    return this.db.create(value).then(row => {
+      if (row) {
+        Object.keys(row).forEach(field => value.set(field, row[field]))
+      }
+      return value
     })
 
   }
@@ -195,7 +198,7 @@ export default class BaseModel extends EventEmitter {
   }
 
   static validate(value) {
-    // todo
+    return undefined
   }
 
 }
