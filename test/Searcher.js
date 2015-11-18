@@ -36,9 +36,9 @@ describe('Searcher', () => {
 
     })
 
-    it('should not empty in `this._whereCondition`', () => {
+    it('should not empty in `this._whereConditions`', () => {
 
-      assert(searcher._whereCondition.length > 0)
+      assert(searcher._whereConditions.length > 0)
 
     })
 

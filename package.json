@@ -2,7 +2,7 @@
   "name": "transwarp",
   "version": "0.0.1",
   "description": "ORM for Node.js",
-  "main": "src/transwarp",
+  "main": "src/index",
   "scripts": {
     "build": "babel src --out-dir lib",
     "lint": "eslint src test",
