@@ -1,6 +1,6 @@
 'use strict'
 
-import Database from './src/Database'
+import Database from './Database'
 
 export const drivers = Object.create(null)
 
