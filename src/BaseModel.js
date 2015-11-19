@@ -16,6 +16,11 @@ export default class BaseModel extends EventEmitter {
   // Returns a human-readable description of this object.
   static description = undefined
 
+  // Returns the primary key name.
+  static get primaryKeyName() {
+    return 'id'
+  }
+
   /**
    * Defines the Model Schema
    *
@@ -106,13 +111,13 @@ export default class BaseModel extends EventEmitter {
     }
 
     const error = value.validate()
-
     // throw error
     if (error) return Promise.reject(error)
 
-    return this.db.create(value).then(row => {
-      if (row) {
-        Object.keys(row).forEach(field => value.set(field, row[field]))
+    return this.db.create(value).then(rows => {
+      if (rows.length) {
+        const row = rows[0]
+        Object.keys(row).forEach(field => value.set(field, row[field]), true)
       }
       return value
     })
@@ -138,8 +143,8 @@ export default class BaseModel extends EventEmitter {
    */
   static first() {
     const M = getModel(this)
-    return this.db.from(this).first().then(row => {
-      return row ? new M(row) : null
+    return this.db.from(this).first().then(rows => {
+      return rows.length ? new M(rows[0]) : null
     })
   }
 
@@ -150,9 +155,16 @@ export default class BaseModel extends EventEmitter {
    */
   static last() {
     const M = getModel(this)
-    return this.db.from(this).last().then(row => {
-      return row ? new M(row) : null
+    return this.db.from(this).last().then(rows => {
+      return rows.length ? new M(rows[0]) : null
     })
+  }
+
+  /**
+   * Counts the model
+   */
+  static count() {
+    return this.db.from(this).count()
   }
 
   /**
@@ -171,11 +183,17 @@ export default class BaseModel extends EventEmitter {
       const M = getModel(this)
       value = new M(value)
     }
-    return this.db.update(value).then(row => {
+    return this.db.from(this).update(value).then(row => {
       if (row) {
-        Object.keys(row).forEach(field => value.set(field, row[field]))
+        Object.keys(row).forEach(field => value.set(field, row[field], true))
+        value.tempState = null
       }
       return value
+    }).catch(err => {
+      Object.keys(value.tempState).forEach(field => {
+        value.set(field, row[field], true)
+      })
+      throw err
     })
   }
 

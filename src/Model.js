@@ -16,6 +16,14 @@ export default class Model extends BaseModel {
     )
   }
 
+  get tempState() {
+    return this._tempState || (this._tempState = Object.create(null))
+  }
+
+  set tempState(state) {
+    this._tempState = state
+  }
+
   get attributes() {
     return this.constructor.attributes
   }
@@ -30,7 +38,8 @@ export default class Model extends BaseModel {
     return this.state[attr]
   }
 
-  set(attr, val) {
+  set(attr, val, nocache) {
+    if (!nocache) this.tempState[attr] = this.state[attr]
     this.state[attr] = val
     return this
   }

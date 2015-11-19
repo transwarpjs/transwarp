@@ -113,38 +113,61 @@ export default class Database {
 
   from(m) {
     const db = this.clone()
-    db.searcher.from((m instanceof Model) ? m.modelName : m)
+    db.searcher.from((Object.getPrototypeOf(m) === Model) ? m.modelName : m)
     return db
   }
 
   create(value) {
-    this.searcher.create(value)
-    this.scope.build(this.searcher)
-    return this.driver.insert(this.conn, this.scope)
+    const db = this.clone()
+    const scope = db.scope.clone()
+    scope.db = db
+    scope.searcher = db.searcher.insert()
+    scope.value = value
+    return this.driver.insert(scope)
   }
 
   find() {
-    this.searcher.find()
-    this.scope.build(this.searcher)
-    return this.driver.find(this.conn, this.scope)
+    const db = this.clone()
+    const scope = db.scope.clone()
+    scope.db = db
+    scope.searcher = db.searcher.find()
+    return this.driver.find(scope)
   }
 
   first() {
-    this.searcher.find().limit(1)
-    this.scope.build(this.searcher)
-    return this.driver.find(this.conn, this.scope)
+    const db = this.clone()
+    const scope = db.scope.clone()
+    scope.db = db
+    scope.searcher = db.searcher.find()
+    db.searcher.limit(1)
+    return this.driver.find(scope)
   }
 
   last() {
-    this.searcher.find().limit(1).sort('id', 'DESC')
-    this.scope.build(this.searcher)
-    return this.driver.find(this.conn, this.scope)
+    const db = this.clone()
+    const scope = db.scope.clone()
+    scope.db = db
+    scope.searcher = db.searcher.find().sort('id', 'DESC').limit(1)
+    return this.driver.find(scope)
   }
 
-  update() {
-    this.searcher.update()
-    this.scope.build(this.searcher)
-    return this.driver.update(this.conn, this.scope)
+  count() {
+    const db = this.clone()
+    const scope = db.scope.clone()
+    scope.db = db
+    scope.searcher = db.searcher.find()
+    return this.driver.count(scope)
+  }
+
+  update(value) {
+    console.log(value.tempState)
+    const db = this.clone()
+    const scope = db.scope.clone()
+    scope.db = db
+    scope.searcher = db.searcher.update(
+      value.toJSON({ only: Object.keys(value.tempState) }))
+    scope.value = value
+    return this.driver.update(scope)
   }
 
   destroy() {

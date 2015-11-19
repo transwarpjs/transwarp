@@ -9,7 +9,7 @@ export default class Searcher {
     this._whereConditions = []
     this._sortConditions = []
     this._groupConditions = []
-    this._updateColumns = []
+    this._updateColumns = null
     this._fieldSet = null
   }
 
@@ -52,7 +52,7 @@ export default class Searcher {
         const keys = Object.keys(column)
         keys.forEach(key => {
           let [field, operator, value] = [key, '=', column[key]]
-          this._whereCondition.push({ column: field, operator, value })
+          this._whereConditions.push({ column: field, operator, value })
         })
       }
       return this
@@ -95,7 +95,7 @@ export default class Searcher {
     return this
   }
 
-  create(attrs = null) {
+  insert(attrs = null) {
     this._cmd = 'insert'
     this._fieldSet = attrs
     this._selectionSet.push('*')
