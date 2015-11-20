@@ -121,7 +121,7 @@ export default class Database {
     const db = this.clone()
     const scope = db.scope.clone()
     scope.db = db
-    scope.searcher = db.searcher.insert()
+    scope.searcher = db.searcher.insert(value.state)
     scope.value = value
     return this.driver.insert(scope)
   }
@@ -160,7 +160,6 @@ export default class Database {
   }
 
   update(value) {
-    console.log(value.tempState)
     const db = this.clone()
     const scope = db.scope.clone()
     scope.db = db
@@ -170,10 +169,17 @@ export default class Database {
     return this.driver.update(scope)
   }
 
-  destroy() {
-    this.searcher.delete()
-    this.scope.build(this.searcher)
-    return this.driver.delete(this.conn, this.scope)
+  destroy(...ids) {
+    const db = this.clone()
+    const scope = db.scope.clone()
+    scope.db = db
+    scope.searcher = db.searcher.delete()
+    if (ids.length === 1) {
+      scope.searcher.where('id', ids[0])
+    } else if (ids.length > 1) {
+      scope.searcher.where('id', 'in', ids)
+    }
+    return this.driver.delete(scope)
   }
 
 }

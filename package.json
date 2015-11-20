@@ -13,7 +13,7 @@
   "author": "Fangdun Cai <cfddream@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "babel-core": "^6.1.21",
+    "babel-core": "^6.2.1",
     "lodash": "^3.10.1",
     "pluralize": "^1.2.1",
     "validator": "^4.2.1"

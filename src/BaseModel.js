@@ -114,7 +114,7 @@ export default class BaseModel extends EventEmitter {
     // throw error
     if (error) return Promise.reject(error)
 
-    return this.db.create(value).then(rows => {
+    return this.db.from(this).create(value).then(rows => {
       if (rows.length) {
         const row = rows[0]
         Object.keys(row).forEach(field => value.set(field, row[field]), true)

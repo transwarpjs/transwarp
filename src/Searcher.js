@@ -98,7 +98,6 @@ export default class Searcher {
   insert(attrs = null) {
     this._cmd = 'insert'
     this._fieldSet = attrs
-    this._selectionSet.push('*')
     return this
   }
 
