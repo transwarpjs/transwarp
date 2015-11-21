@@ -19,22 +19,22 @@
     "validator": "^4.2.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.2.0",
-    "babel-eslint": "^4.1.5",
-    "babel-plugin-transform-es2015-destructuring": "^6.1.18",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.2.0",
-    "babel-plugin-transform-es2015-parameters": "^6.1.18",
-    "babel-preset-stage-1": "^6.1.18",
-    "babel-preset-stage-2": "^6.1.18",
-    "babel-preset-stage-3": "^6.1.18",
-    "eslint": "^1.9.0",
-    "eslint-plugin-babel": "^2.1.1",
-    "isparta": "^4.0.0",
-    "mocha": "^2.3.4",
-    "mongodb": "^2.0.48",
-    "mysql": "^2.9.0",
-    "pg": "^4.4.3",
-    "sqlite3": "^3.1.1"
+    "babel-cli": "^6.x",
+    "babel-eslint": "^4.x",
+    "babel-plugin-transform-es2015-destructuring": "^6.x",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.x",
+    "babel-plugin-transform-es2015-parameters": "^6.x",
+    "babel-preset-stage-1": "^6.x",
+    "babel-preset-stage-2": "^6.x",
+    "babel-preset-stage-3": "^6.x",
+    "eslint": "^1.x",
+    "eslint-plugin-babel": "^2.x",
+    "isparta": "^4.x",
+    "mocha": "^2.x",
+    "mongodb": "^2.x",
+    "mysql": "^2.x",
+    "pg": "^4.x",
+    "sqlite3": "^3.x"
   },
   "babel": {
     "presets": [
