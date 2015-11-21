@@ -37,15 +37,15 @@
     "sqlite3": "^3.x"
   },
   "babel": {
-    "presets": [
-      "stage-1",
-      "stage-2",
-      "stage-3"
-    ],
     "plugins": [
       "transform-es2015-destructuring",
       "transform-es2015-modules-commonjs",
       "transform-es2015-parameters"
+    ],
+    "presets": [
+      "stage-1",
+      "stage-2",
+      "stage-3"
     ]
   }
 }
