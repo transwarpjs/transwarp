@@ -40,11 +40,21 @@ export default class Database {
   /**
    * Verifies a connection to the database is still alive
    *
-   * @return {Promise<Result>}
+   * @return {Promise<Boolean>}
    */
   ping() {
     if (this.driver.ping) return this.driver.ping(this.conn)
     return Promise.reject(new Error('`Database driver#ping()` need implement!'))
+  }
+
+  /**
+   * Executes a raw SQL / Command
+   *
+   * @return {Promise<Result>}
+   */
+  exec(...args) {
+    if (this.driver.exec) return this.driver.exec(this.conn, ...args)
+    return Promise.reject(new Error('`Database driver#exec()` need implement!'))
   }
 
   /**
@@ -96,6 +106,8 @@ export default class Database {
     const db = Object.create(this)
     db.searcher = this.searcher.clone()
     db.scope = this.scope.clone()
+    db.scope.db = db
+    db.scope.searcher = db.searcher
     return db
   }
 
@@ -119,65 +131,58 @@ export default class Database {
 
   create(value) {
     const db = this.clone()
-    const scope = db.scope.clone()
-    scope.db = db
-    scope.searcher = db.searcher.insert(value.state)
+    const { searcher, scope } = db
+    searcher.insert(value.state)
     scope.value = value
     return this.driver.insert(scope)
   }
 
   find() {
     const db = this.clone()
-    const scope = db.scope.clone()
-    scope.db = db
-    scope.searcher = db.searcher.find()
+    const { searcher, scope } = db
+    searcher.find()
     return this.driver.find(scope)
   }
 
   first() {
     const db = this.clone()
-    const scope = db.scope.clone()
-    scope.db = db
-    scope.searcher = db.searcher.find()
-    db.searcher.limit(1)
+    const { searcher, scope } = db
+    searcher.limit(1).find()
     return this.driver.find(scope)
   }
 
   last() {
     const db = this.clone()
-    const scope = db.scope.clone()
-    scope.db = db
-    scope.searcher = db.searcher.find().sort('id', 'DESC').limit(1)
+    const { searcher, scope } = db
+    searcher.sort('id', 'DESC').limit(1).find()
     return this.driver.find(scope)
   }
 
   count() {
     const db = this.clone()
-    const scope = db.scope.clone()
-    scope.db = db
-    scope.searcher = db.searcher.find()
+    const { searcher, scope } = db
+    searcher.find()
     return this.driver.count(scope)
   }
 
   update(value) {
     const db = this.clone()
-    const scope = db.scope.clone()
-    scope.db = db
-    scope.searcher = db.searcher.update(
-      value.toJSON({ only: Object.keys(value.tempState) }))
+    const { searcher, scope } = db
+    searcher.update(
+      value.toJSON({ only: Object.keys(value.tempState) })
+    )
     scope.value = value
     return this.driver.update(scope)
   }
 
   destroy(...ids) {
     const db = this.clone()
-    const scope = db.scope.clone()
-    scope.db = db
-    scope.searcher = db.searcher.delete()
+    const { searcher, scope } = db
+    db.searcher.delete()
     if (ids.length === 1) {
-      scope.searcher.where('id', ids[0])
+      searcher.where('id', ids[0])
     } else if (ids.length > 1) {
-      scope.searcher.where('id', 'in', ids)
+      searcher.where('id', 'in', ids)
     }
     return this.driver.delete(scope)
   }
