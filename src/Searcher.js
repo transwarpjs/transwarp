@@ -27,6 +27,15 @@ export default class Searcher {
     return s
   }
 
+  get cmd() {
+    return this._cmd
+  }
+
+  set cmd(cmd) {
+    this._cmd = cmd
+    return this
+  }
+
   select(...columns) {
     this._selectionSet.push(...columns)
     return this
@@ -91,29 +100,30 @@ export default class Searcher {
   }
 
   find() {
-    this._cmd = 'FIND'
+    this.cmd = 'FIND'
     return this
   }
 
   insert(attrs = null) {
-    this._cmd = 'INSERT'
+    this.cmd = 'INSERT'
     this._fieldSet = attrs
     return this
   }
 
   update(attrs = null) {
-    this._cmd = 'UPDATE'
+    this.cmd = 'UPDATE'
     this._updateColumns = attrs
     return this
   }
 
   delete() {
-    this._cmd = 'DELETE'
+    this.cmd = 'DELETE'
     return this
   }
 
   toJSON() {
     return {
+      command: this.cmd,
       columns: this._selectionSet,
       model: this._modelName,
       where: this._whereConditions
