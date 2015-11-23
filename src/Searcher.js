@@ -91,24 +91,24 @@ export default class Searcher {
   }
 
   find() {
-    this._cmd = 'find'
+    this._cmd = 'FIND'
     return this
   }
 
   insert(attrs = null) {
-    this._cmd = 'insert'
+    this._cmd = 'INSERT'
     this._fieldSet = attrs
     return this
   }
 
   update(attrs = null) {
-    this._cmd = 'update'
+    this._cmd = 'UPDATE'
     this._updateColumns = attrs
     return this
   }
 
   delete() {
-    this._cmd = 'delete'
+    this._cmd = 'DELETE'
     return this
   }
 

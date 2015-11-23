@@ -44,7 +44,7 @@ export default class Database {
    */
   ping() {
     if (this.driver.ping) return this.driver.ping(this.conn)
-    return Promise.reject(new Error('`Database driver#ping()` need implement!'))
+    return Promise.reject(new Error('Database `driver#ping()` need implement!'))
   }
 
   /**
@@ -54,7 +54,7 @@ export default class Database {
    */
   exec(...args) {
     if (this.driver.exec) return this.driver.exec(this.conn, ...args)
-    return Promise.reject(new Error('`Database driver#exec()` need implement!'))
+    return Promise.reject(new Error('Database `driver#exec()` need implement!'))
   }
 
   /**
@@ -178,7 +178,7 @@ export default class Database {
   destroy(...ids) {
     const db = this.clone()
     const { searcher, scope } = db
-    db.searcher.delete()
+    searcher.delete()
     if (ids.length === 1) {
       searcher.where('id', ids[0])
     } else if (ids.length > 1) {
