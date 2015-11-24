@@ -123,6 +123,7 @@ export default class Database {
 
   // Basic CRUD
 
+  // Note(fundon): rename to `setModel()`
   from(m) {
     const db = this.clone()
     db.searcher.from((Object.getPrototypeOf(m) === Model) ? m.modelName : m)

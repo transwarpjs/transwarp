@@ -1,11 +1,12 @@
 'use strict'
 
 import _ from 'lodash'
+import compose from 'koa-compose'
 import BaseModel from './BaseModel'
 
 export default class Model extends BaseModel {
 
-  constructor(state = null) {
+  constructor(state = null, exists = false) {
     super()
 
     const attrs = this.constructor.attributes
@@ -14,6 +15,8 @@ export default class Model extends BaseModel {
       state,
       ...attrs
     )
+
+    this.exists = exists
   }
 
   get tempState() {
@@ -78,9 +81,22 @@ export default class Model extends BaseModel {
    * @return {Promise}
    */
   save() {
+    const hooks = this.constructor.hooks
+    const prefix = this.exists ? 'updat' : 'creat'
+    let stack = hooks.listeners('saving')
+    stack.push(...hooks.listeners(`${prefix}ing`))
+    stack.push((_, next) => {
+      return this.constructor[`${prefix}e`](this)
+      .then(next)
+    })
+    stack.push(...hooks.listeners(`${prefix}ed`))
+    stack.push(...hooks.listeners('saved'))
+    return compose(stack)(this)
+    /*
     const id = this.get('id') || this.get('_id')
     const action = id ? 'update' : 'create'
     return this.constructor[action](this)
+    */
   }
 
   /**
@@ -94,8 +110,21 @@ export default class Model extends BaseModel {
    * @return {Promise}
    */
   delete() {
+    const hooks = this.constructor.hooks
+    let stack = hooks.listeners('deleting')
+    stack.push((_, next) => {
+      const id = this.get('id') || this.get('_id')
+      return this.constructor.destroy(id).then(() => {
+        this.exists = false
+        return next()
+      })
+    })
+    stack.push(...hooks.listeners('deleted'))
+    return compose(stack)(this)
+    /*
     const id = this.get('id') || this.get('_id')
     return this.constructor.destroy(id)
+    */
   }
 
   validate() {

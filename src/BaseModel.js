@@ -1,8 +1,9 @@
 'use strict'
 
 import _ from 'lodash'
-import EventEmitter from 'events'
 import { plural, singular } from 'pluralize'
+import EventEmitter from 'events'
+import Hooks from './Hooks'
 
 export default class BaseModel extends EventEmitter {
 
@@ -87,6 +88,15 @@ export default class BaseModel extends EventEmitter {
     return m
   }
 
+  // boot
+  static boot() {}
+
+  // hooks
+  static get hooks() {
+    return this._hooks || (this._hooks = new Hooks())
+  }
+
+
   // Basic CRUD
 
   /**
@@ -110,18 +120,14 @@ export default class BaseModel extends EventEmitter {
       value = new M(value)
     }
 
-    const error = value.validate()
-    // throw error
-    if (error) return Promise.reject(error)
-
     return this.db.from(this).create(value).then(rows => {
       if (rows.length) {
         const row = rows[0]
         Object.keys(row).forEach(field => value.set(field, row[field]), true)
       }
+      value.exists = true
       return value
     })
-
   }
 
   /**
@@ -132,7 +138,7 @@ export default class BaseModel extends EventEmitter {
   static find() {
     let M = getModel(this)
     return this.db.from(this).find().then(rows => {
-      return rows.map(row => new M(row))
+      return rows.map(row => new M(row, true))
     })
   }
 
@@ -144,7 +150,7 @@ export default class BaseModel extends EventEmitter {
   static first() {
     const M = getModel(this)
     return this.db.from(this).first().then(rows => {
-      return rows.length ? new M(rows[0]) : null
+      return rows.length ? new M(rows[0], true) : null
     })
   }
 
@@ -156,7 +162,7 @@ export default class BaseModel extends EventEmitter {
   static last() {
     const M = getModel(this)
     return this.db.from(this).last().then(rows => {
-      return rows.length ? new M(rows[0]) : null
+      return rows.length ? new M(rows[0], true) : null
     })
   }
 
@@ -188,6 +194,7 @@ export default class BaseModel extends EventEmitter {
         Object.keys(row).forEach(field => value.set(field, row[field], true))
         value.tempState = null
       }
+      value.exists = true
       return value
     }).catch(err => {
       Object.keys(value.tempState).forEach(field => {
