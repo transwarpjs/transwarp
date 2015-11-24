@@ -1,7 +1,6 @@
 'use strict'
 
 import Scope from './Scope'
-import Searcher from './Searcher'
 import Model from './Model'
 
 export default class Database {
@@ -78,36 +77,14 @@ export default class Database {
   }
 
   /**
-   * Gets the searcher
-   *
-   * @return {Searcher}
-   */
-  get searcher() {
-    return this._searcher || (this._searcher = new Searcher())
-  }
-
-  /**
-   * Sets the searcher
-   *
-   * @param {Searcher} searcher
-   * @return {Database}
-   */
-  set searcher(searcher) {
-    this._searcher = searcher
-    return this
-  }
-
-  /**
    * Clones the current database
    *
    * @return {Database}
    */
   clone() {
     const db = Object.create(this)
-    db.searcher = this.searcher.clone()
     db.scope = this.scope.clone()
     db.scope.db = db
-    db.scope.searcher = db.searcher
     return db
   }
 
@@ -126,50 +103,44 @@ export default class Database {
   // Note(fundon): rename to `setModel()`
   from(m) {
     const db = this.clone()
-    db.searcher.from((Object.getPrototypeOf(m) === Model) ? m.modelName : m)
+    db.scope.searcher.from((Object.getPrototypeOf(m) === Model) ? m.modelName : m)
     return db
   }
 
   create(value) {
-    const db = this.clone()
-    const { searcher, scope } = db
-    searcher.insert(value.state)
+    const scope = this.scope.clone()
+    scope.searcher.insert(value.state)
     scope.value = value
     return this.driver.insert(scope)
   }
 
   find() {
-    const db = this.clone()
-    const { searcher, scope } = db
-    searcher.find()
+    const scope = this.scope.clone()
+    scope.searcher.find()
     return this.driver.find(scope)
   }
 
   first() {
-    const db = this.clone()
-    const { searcher, scope } = db
-    searcher.limit(1).find()
+    const scope = this.scope.clone()
+    scope.searcher.limit(1).find()
     return this.driver.find(scope)
   }
 
   last() {
-    const db = this.clone()
-    const { searcher, scope } = db
-    searcher.sort('id', 'DESC').limit(1).find()
+    const scope = this.scope.clone()
+    scope.searcher.sort('id', 'DESC').limit(1).find()
     return this.driver.find(scope)
   }
 
   count() {
-    const db = this.clone()
-    const { searcher, scope } = db
-    searcher.find()
+    const scope = this.scope.clone()
+    scope.searcher.find()
     return this.driver.count(scope)
   }
 
   update(value) {
-    const db = this.clone()
-    const { searcher, scope } = db
-    searcher.update(
+    const scope = this.scope.clone()
+    scope.searcher.update(
       value.toJSON({ only: Object.keys(value.tempState) })
     )
     scope.value = value
@@ -177,8 +148,8 @@ export default class Database {
   }
 
   destroy(...ids) {
-    const db = this.clone()
-    const { searcher, scope } = db
+    const scope = this.scope.clone()
+    const searcher = scope.searcher
     searcher.delete()
     if (ids.length === 1) {
       searcher.where('id', ids[0])
