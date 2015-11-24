@@ -35,6 +35,11 @@ export default class Model extends BaseModel {
     return this.constructor.name
   }
 
+  // Shorthand for the constructor's hooks
+  get hooks() {
+    return this.constructor.hooks
+  }
+
   // Instance Methods
 
   get(attr, type) {
@@ -81,7 +86,7 @@ export default class Model extends BaseModel {
    * @return {Promise}
    */
   save() {
-    const hooks = this.constructor.hooks
+    const hooks = this.hooks
     const prefix = this.exists ? 'updat' : 'creat'
     let stack = hooks.listeners('saving')
     stack.push(...hooks.listeners(`${prefix}ing`))
@@ -110,7 +115,7 @@ export default class Model extends BaseModel {
    * @return {Promise}
    */
   delete() {
-    const hooks = this.constructor.hooks
+    const hooks = this.hooks
     let stack = hooks.listeners('deleting')
     stack.push((_, next) => {
       const id = this.get('id') || this.get('_id')
