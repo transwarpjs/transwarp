@@ -3,37 +3,31 @@ import _ from 'lodash'
 export default class Searcher {
 
   constructor() {
-    this._cmd = undefined
-    this._modelName = undefined
-    this._selectionSet = []
-    this._whereConditions = []
-    this._sortConditions = []
-    this._groupConditions = []
-    this._updateColumns = null
+    this._aggregateConditions = []
     this._fieldSet = null
+    this._groupConditions = []
+    this._havingConditions = []
+    this._joinConditions = []
+    this._selectionSet = []
+    this._sortConditions = []
+    this._unionConditions = []
+    this._updateColumns = null
+    this._whereConditions = []
   }
 
   clone() {
     const s = Object.create(this)
-    s._selectionSet = this._selectionSet.slice()
-    s._whereConditions = this._whereConditions.slice()
-    s._sortConditions = this._sortConditions.slice()
-    s._groupConditions = this._groupConditions.slice()
-    s._updateColumns = Object.create(this._updateColumns)
+    s._aggregateConditions = this._aggregateConditions.slice()
     s._fieldSet = Object.create(this._fieldSet)
-
-    // s._limit = null
-    // s._skip = null
+    s._groupConditions = this._groupConditions.slice()
+    s._havingConditions = this._havingConditions.slice()
+    s._joinConditions = this._joinConditions.slice()
+    s._selectionSet = this._selectionSet.slice()
+    s._sortConditions = this._sortConditions.slice()
+    s._unionConditions = tis._unionConditions.slice()
+    s._updateColumns = Object.create(this._updateColumns)
+    s._whereConditions = this._whereConditions.slice()
     return s
-  }
-
-  get cmd() {
-    return this._cmd
-  }
-
-  set cmd(cmd) {
-    this._cmd = cmd
-    return this
   }
 
   select(...columns) {
@@ -42,8 +36,8 @@ export default class Searcher {
   }
 
   from(modelName, as = '') {
-    this._modelName = modelName
-    this._as = ''
+    this.modelName = modelName
+    this.as = as
     return this
   }
 
@@ -79,6 +73,11 @@ export default class Searcher {
 
   group(...columns) {
     this._groupConditions.push(...columns)
+    return this
+  }
+
+  having(...columns) {
+    this._havingConditions.push(...columns)
     return this
   }
 
@@ -125,7 +124,7 @@ export default class Searcher {
     return {
       command: this.cmd,
       columns: this._selectionSet,
-      model: this._modelName,
+      model: this.modelName,
       where: this._whereConditions
     }
   }
