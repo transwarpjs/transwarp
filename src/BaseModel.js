@@ -17,9 +17,14 @@ export default class BaseModel extends EventEmitter {
   // Returns a human-readable description of this object.
   static description = undefined
 
-  // Returns the primary key name.
-  static get primaryKeyName() {
+  // Returns the primary key.
+  static get primaryKey() {
     return 'id'
+  }
+
+  // Returns the foreign key
+  static get foreignKey() {
+    return `${this.name.toLowerCase()}Id`
   }
 
   /**
@@ -102,16 +107,7 @@ export default class BaseModel extends EventEmitter {
   /**
    * Creates an instance of the Model
    *
-   * @example
-   *
-   *    // For RDB
-   *
-   *    User.create({})
-   *    // => `BEGIN TRANSACTION;`
-   *    // => `INSERT INTO users () VALUES ();`
-   *    // => `COMMIT;`
-   *
-   * @param {Object} attrs
+   * @param {Object} value
    * @return {Promise<Model>}
    */
   static create(value) {
@@ -124,8 +120,8 @@ export default class BaseModel extends EventEmitter {
       if (rows.length) {
         const row = rows[0]
         Object.keys(row).forEach(field => value.set(field, row[field]), true)
+        value.exists = true
       }
-      value.exists = true
       return value
     })
   }
