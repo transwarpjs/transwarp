@@ -148,6 +148,9 @@ export default class Database {
   }
 
   destroy(...ids) {
+    if (ids.length === 0) {
+      return Promise.resolve(0)
+    }
     const scope = this.scope.clone()
     const searcher = scope.searcher
     searcher.delete()
