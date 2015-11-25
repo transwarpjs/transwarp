@@ -9,22 +9,9 @@ export default class Model extends BaseModel {
   constructor(state = null, exists = false) {
     super()
 
-    const attrs = this.constructor.attributes
-
-    this.state = _.pick(
-      state,
-      ...attrs
-    )
+    this.fill(state)
 
     this.exists = exists
-  }
-
-  get tempState() {
-    return this._tempState || (this._tempState = Object.create(null))
-  }
-
-  set tempState(state) {
-    this._tempState = state
   }
 
   get attributes() {
@@ -35,12 +22,48 @@ export default class Model extends BaseModel {
     return this.constructor.name
   }
 
-  // Shorthand for the constructor's hooks
+  // Shorthand for the Model.hooks
   get hooks() {
     return this.constructor.hooks
   }
 
+  // Shorthand for the Model.db
+  get db() {
+    return this.constructor.db
+  }
+
+  // Shorthand for the Model.primaryKey
+  get primaryKey() {
+    return this.constructor.primaryKey
+  }
+
+  // Shorthand for the Model.foreignKey
+  get foreignKey() {
+    return this.constructor.foreignKey
+  }
+
+  get tempState() {
+    return this._tempState || (this._tempState = Object.create(null))
+  }
+
+  set tempState(state) {
+    this._tempState = state
+  }
+
+  // get key()
+  get id() {
+    return _.get(this.state, this.primaryKey)
+  }
+
   // Instance Methods
+
+  fill(state) {
+    this.state = _.pick(
+      state,
+      ...this.attributes
+    )
+    return this
+  }
 
   get(attr, type) {
     return this.state[attr]
@@ -104,6 +127,11 @@ export default class Model extends BaseModel {
     */
   }
 
+  update(value) {
+    this.fill(value)
+    return this.save()
+  }
+
   /**
    * Deletes a instance
    *
@@ -115,22 +143,32 @@ export default class Model extends BaseModel {
    * @return {Promise}
    */
   delete() {
+    if (!this.primaryKey) throw new Error('No primary key defined on model.')
+
+    if (!this.exists) return Promise.resolve(false)
+
     const hooks = this.hooks
     let stack = hooks.listeners('deleting')
     stack.push((_, next) => {
       const id = this.get('id') || this.get('_id')
-      return this.constructor.destroy(id).then(() => {
-        this.exists = false
-        return next()
-      })
+      return this.constructor.destroy(id)
+        .then(() => this.exists = false)
+        .then(next)
     })
     stack.push(...hooks.listeners('deleted'))
-    return compose(stack)(this)
+    return compose(stack)(this).then(() => true)
     /*
     const id = this.get('id') || this.get('_id')
     return this.constructor.destroy(id)
     */
   }
+
+  /**
+   * Reloads a fresh model instance from the database
+   *
+   * @return {Promise<Model|NULL>}
+   */
+  fresh() {}
 
   validate() {
     return this.constructor.validate(this.toJSON())
