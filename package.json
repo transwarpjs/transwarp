@@ -28,7 +28,7 @@
     "babel-preset-stage-1": "^6.x",
     "babel-preset-stage-2": "^6.1.18",
     "babel-preset-stage-3": "^6.x",
-    "eslint": "^1.x",
+    "eslint": "^1.10.2",
     "eslint-plugin-babel": "^2.x",
     "isparta": "^4.x",
     "mocha": "^2.x",
