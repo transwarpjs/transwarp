@@ -2,6 +2,8 @@
   "name": "transwarp",
   "version": "0.0.1",
   "description": "ORM for Node.js",
+  "author": "Fangdun Cai <cfddream@gmail.com>",
+  "license": "MIT",
   "main": "src/index",
   "scripts": {
     "build": "babel src --out-dir lib",
@@ -10,8 +12,6 @@
     "test-cov": "babel-node node_modules/.bin/isparta cover node_modules/.bin/_mocha -- -u exports --bail --check-leaks test",
     "test-travis": "babel-node node_modules/.bin/isparta cover --report lcovonly node_modules/.bin/_mocha -- -u exports --bail --check-leaks test"
   },
-  "author": "Fangdun Cai <cfddream@gmail.com>",
-  "license": "MIT",
   "dependencies": {
     "babel-core": "^6.2.1",
     "koa-compose": "^3.0.0",
