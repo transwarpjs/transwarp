@@ -27,7 +27,7 @@
     "babel-plugin-transform-es2015-parameters": "^6.1.18",
     "babel-preset-stage-1": "^6.x",
     "babel-preset-stage-2": "^6.1.18",
-    "babel-preset-stage-3": "^6.x",
+    "babel-preset-stage-3": "^6.1.18",
     "eslint": "^1.10.3",
     "eslint-plugin-babel": "^3.0.0",
     "isparta": "^4.x",
