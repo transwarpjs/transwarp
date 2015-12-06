@@ -32,7 +32,7 @@
     "eslint-plugin-babel": "^3.0.0",
     "isparta": "^4.x",
     "mocha": "^2.x",
-    "mongodb": "^2.x",
+    "mongodb": "^2.0.50",
     "mysql": "^2.x",
     "pg": "^4.x",
     "sqlite3": "^3.x"
