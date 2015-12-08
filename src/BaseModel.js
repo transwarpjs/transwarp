@@ -196,7 +196,7 @@ export default class BaseModel extends EventEmitter {
       Object.keys(value.tempState).forEach(field => {
         value.set(field, row[field], true)
       })
-      throw err
+      return Promise.reject(err)
     })
   }
 
