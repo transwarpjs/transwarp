@@ -218,9 +218,13 @@ export default class BaseModel extends EventEmitter {
     return this.db.from(this).destroy(...ids)
   }
 
-  static validate(value) {
-    return undefined
-  }
+  /**
+   * Needs to implement.
+   *
+   * @param {Object} value
+   * @return {Promise<result>}
+   */
+  static validate(value) {}
 
 }
 

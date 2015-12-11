@@ -143,9 +143,13 @@ export default class Model extends BaseModel {
    * @return {Promise}
    */
   delete() {
-    if (!this.primaryKey) throw new Error('No primary key defined on model.')
+    if (!this.primaryKey) {
+      return Promise.reject(new Error('No primary key defined on model.'))
+    }
 
-    if (!this.exists) return Promise.resolve(false)
+    if (!this.exists) {
+      return Promise.resolve(false)
+    }
 
     const hooks = this.hooks
     let stack = hooks.listeners('deleting')

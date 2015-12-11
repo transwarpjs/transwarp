@@ -16,8 +16,7 @@
     "babel-core": "^6",
     "koa-compose": "^3",
     "lodash": "^3",
-    "pluralize": "^1",
-    "validator": "^4"
+    "pluralize": "^1"
   },
   "devDependencies": {
     "babel-cli": "^6",
