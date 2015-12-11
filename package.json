@@ -20,7 +20,7 @@
     "validator": "^4"
   },
   "devDependencies": {
-    "babel-cli": "^6",
+    "babel-cli": "^6.3.17",
     "babel-eslint": "^4",
     "babel-plugin-transform-es2015-destructuring": "^6",
     "babel-plugin-transform-es2015-modules-commonjs": "^6",
