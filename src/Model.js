@@ -101,6 +101,9 @@ export default class Model extends BaseModel {
   /**
    * Saves an instance
    *
+   * The hooks's lifecycle is:
+   *  `saving` -> `creating` -> `create` -> `created` -> `saved`
+   *
    * @example
    *
    *    user.set('name', 'r2d2')
@@ -127,6 +130,18 @@ export default class Model extends BaseModel {
     */
   }
 
+  /**
+   * Updates an instance
+   *
+   * The hooks's lifecycle is:
+   *  `saving` -> `updating` -> `update` -> `updated` -> `saved`
+   *
+   * @example
+   *
+   *    user.update({...})
+   *
+   * @return {Promise}
+   */
   update(value) {
     this.fill(value)
     return this.save()
@@ -134,6 +149,9 @@ export default class Model extends BaseModel {
 
   /**
    * Deletes a instance
+   *
+   * The hooks's lifecycle is:
+   *  `deleting` -> `delete` -> `deleted`
    *
    * @example
    *
