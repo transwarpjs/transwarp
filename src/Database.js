@@ -37,6 +37,15 @@ export default class Database {
   }
 
   /**
+   * Gets current dialect
+   *
+   * @return {Object}
+   */
+  get dialect() {
+    return this.driver.dialect
+  }
+
+  /**
    * Verifies a connection to the database is still alive
    *
    * @return {Promise<Boolean>}
@@ -72,8 +81,7 @@ export default class Database {
    * @return {Database}
    */
   set scope(scope) {
-    this._scope = scope
-    return this
+    return (this._scope = scope, this)
   }
 
   /**
@@ -88,19 +96,10 @@ export default class Database {
     return db
   }
 
-  /**
-   * Gets current dialect
-   *
-   * @return {Object}
-   */
-  get dialect() {
-    return this.driver.dialect
-  }
-
 
   // Basic CRUD
 
-  // Note(fundon): rename to `setModel()`
+  // NOTE(fundon): rename to `setModel()`
   from(m) {
     const db = this.clone()
     db.scope.searcher.from((Object.getPrototypeOf(m) === Model) ? m.modelName : m)
