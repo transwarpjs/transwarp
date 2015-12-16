@@ -27,8 +27,7 @@ export default class Scope {
    * @return {Scope}
    */
   set searcher(searcher) {
-    this._searcher = searcher
-    return this
+    return (this._searcher = searcher, this)
   }
 
   clone() {

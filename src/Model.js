@@ -117,8 +117,7 @@ export default class Model extends BaseModel {
     let stack = hooks.listeners('saving')
     stack.push(...hooks.listeners(`${prefix}ing`))
     stack.push((_, next) => {
-      return this.constructor[`${prefix}e`](this)
-      .then(next)
+      return this.constructor[`${prefix}e`](this).then(next)
     })
     stack.push(...hooks.listeners(`${prefix}ed`))
     stack.push(...hooks.listeners('saved'))
@@ -143,8 +142,7 @@ export default class Model extends BaseModel {
    * @return {Promise}
    */
   update(value) {
-    this.fill(value)
-    return this.save()
+    return this.fill(value).save()
   }
 
   /**

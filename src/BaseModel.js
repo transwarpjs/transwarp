@@ -1,8 +1,8 @@
 'use strict'
 
 import _ from 'lodash'
-import { plural, singular } from 'pluralize'
 import EventEmitter from 'events'
+import { plural, singular } from 'pluralize'
 import Hooks from './Hooks'
 
 export default class BaseModel extends EventEmitter {
