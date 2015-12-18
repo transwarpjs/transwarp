@@ -85,10 +85,7 @@ export default class Model extends BaseModel {
       attrs = _.without(attrs, ...except)
     }
 
-    return _.pick(
-      this.state,
-      attrs
-    )
+    return _.pick(this.state, attrs)
   }
 
   // Helper for console.log
@@ -116,17 +113,10 @@ export default class Model extends BaseModel {
     const prefix = this.exists ? 'updat' : 'creat'
     let stack = hooks.listeners('saving')
     stack.push(...hooks.listeners(`${prefix}ing`))
-    stack.push((_, next) => {
-      return this.constructor[`${prefix}e`](this).then(next)
-    })
+    stack.push((_, next) => this.constructor[`${prefix}e`](this).then(next))
     stack.push(...hooks.listeners(`${prefix}ed`))
     stack.push(...hooks.listeners('saved'))
     return compose(stack)(this)
-    /*
-    const id = this.get('id') || this.get('_id')
-    const action = id ? 'update' : 'create'
-    return this.constructor[action](this)
-    */
   }
 
   /**
@@ -177,10 +167,6 @@ export default class Model extends BaseModel {
     })
     stack.push(...hooks.listeners('deleted'))
     return compose(stack)(this).then(() => true)
-    /*
-    const id = this.get('id') || this.get('_id')
-    return this.constructor.destroy(id)
-    */
   }
 
   /**
