@@ -24,7 +24,7 @@ export default class Searcher {
     s._joinConditions = this._joinConditions.slice()
     s._selectionSet = this._selectionSet.slice()
     s._sortConditions = this._sortConditions.slice()
-    s._unionConditions = tis._unionConditions.slice()
+    s._unionConditions = this._unionConditions.slice()
     s._updateColumns = Object.create(this._updateColumns)
     s._whereConditions = this._whereConditions.slice()
     return s
