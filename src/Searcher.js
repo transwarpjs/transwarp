@@ -1,3 +1,5 @@
+'use strict'
+
 import _ from 'lodash'
 
 export default class Searcher {
@@ -48,13 +50,15 @@ export default class Searcher {
     if (len === 0) return this
 
     // Fetches variables
-    let [column, operator, value] = args
+    const column = args[0]
+    let operator = args[1]
+    let value = args[2]
 
     if (len === 1) {
       if (_.isObject(column)) {
         const keys = Object.keys(column)
         keys.forEach(key => {
-          let [field, operator, value] = [key, '=', column[key]]
+          const [field, operator, value] = [key, '=', column[key]]
           this._whereConditions.push({ column: field, operator, value })
         })
       }

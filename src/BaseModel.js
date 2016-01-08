@@ -8,14 +8,14 @@ import Hooks from './Hooks'
 export default class BaseModel extends EventEmitter {
 
   // database
-  static db = undefined
+  static db = undefined;
 
   // http://www.postgresql.org/docs/current/static/ddl-schemas.html
   // e.g: postgres - public schema
-  static schemaName = undefined
+  static schemaName = undefined;
 
   // Returns a human-readable description of this object.
-  static description = undefined
+  static description = undefined;
 
   // Returns the primary key.
   static get primaryKey() {
@@ -40,7 +40,7 @@ export default class BaseModel extends EventEmitter {
    *      }
    *    }
    */
-  static schema = Object.create(null)
+  static schema = Object.create(null);
 
   /**
    * Gets attributes of the Model Schema
@@ -76,7 +76,7 @@ export default class BaseModel extends EventEmitter {
     this.db = undefined
   }
 
-  static isCloned = false
+  static isCloned = false;
 
   // Clone
   static clone() {
@@ -132,7 +132,7 @@ export default class BaseModel extends EventEmitter {
    * @return {Promise<[]Model>}
    */
   static find() {
-    let M = getModel(this)
+    const M = getModel(this)
     return this.db.from(this).find().then(rows => {
       return rows.map(row => new M(row, true))
     })
@@ -194,7 +194,7 @@ export default class BaseModel extends EventEmitter {
       return value
     }).catch(err => {
       Object.keys(value.tempState).forEach(field => {
-        value.set(field, row[field], true)
+        value.set(field, value.tempState[field], true)
       })
       return Promise.reject(err)
     })

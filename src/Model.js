@@ -111,7 +111,7 @@ export default class Model extends BaseModel {
   save() {
     const hooks = this.hooks
     const prefix = this.exists ? 'updat' : 'creat'
-    let stack = hooks.listeners('saving')
+    const stack = hooks.listeners('saving')
     stack.push(...hooks.listeners(`${prefix}ing`))
     stack.push((_, next) => this.constructor[`${prefix}e`](this).then(next))
     stack.push(...hooks.listeners(`${prefix}ed`))
@@ -158,7 +158,7 @@ export default class Model extends BaseModel {
     }
 
     const hooks = this.hooks
-    let stack = hooks.listeners('deleting')
+    const stack = hooks.listeners('deleting')
     stack.push((_, next) => {
       const id = this.get('id') || this.get('_id')
       return this.constructor.destroy(id)

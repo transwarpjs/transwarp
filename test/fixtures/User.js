@@ -16,6 +16,6 @@ export default class User extends Model {
 
     deletedAt: 'date'
 
-  }
+  };
 
 }

@@ -102,7 +102,9 @@ export default class Database {
   // NOTE(fundon): rename to `setModel()`
   from(m) {
     const db = this.clone()
-    db.scope.searcher.from((Object.getPrototypeOf(m) === Model) ? m.modelName : m)
+    db.scope.searcher.from(
+      (Object.getPrototypeOf(m) === Model) ? m.modelName : m
+    )
     return db
   }
 
