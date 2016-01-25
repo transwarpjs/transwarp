@@ -15,7 +15,7 @@
   "dependencies": {
     "babel-core": "6",
     "koa-compose": "3",
-    "lodash": "3",
+    "lodash": "4.0.1",
     "pluralize": "1"
   },
   "devDependencies": {
