@@ -22,7 +22,7 @@
     "babel-cli": "6",
     "babel-eslint": "4",
     "babel-plugin-transform-es2015-destructuring": "6",
-    "babel-plugin-transform-es2015-modules-commonjs": "6",
+    "babel-plugin-transform-es2015-modules-commonjs": "6.7.4",
     "babel-plugin-transform-es2015-parameters": "6",
     "babel-preset-stage-1": "6",
     "babel-preset-stage-2": "6",
