@@ -16,7 +16,7 @@
     "babel-core": "6",
     "koa-compose": "3",
     "lodash": "3",
-    "pluralize": "1"
+    "pluralize": "2.0.0"
   },
   "devDependencies": {
     "babel-cli": "6",
