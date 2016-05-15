@@ -34,7 +34,7 @@
     "mongodb": "2",
     "mysql": "2",
     "pg": "4",
-    "sqlite3": "3"
+    "sqlite3": "3.1.4"
   },
   "babel": {
     "plugins": [
