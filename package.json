@@ -33,7 +33,7 @@
     "mocha": "2",
     "mongodb": "2",
     "mysql": "2",
-    "pg": "4",
+    "pg": "5.0.0",
     "sqlite3": "3"
   },
   "babel": {
