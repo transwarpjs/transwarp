@@ -30,7 +30,7 @@
     "eslint": "1",
     "eslint-plugin-babel": "3",
     "isparta": "4",
-    "mocha": "2",
+    "mocha": "3.0.1",
     "mongodb": "2",
     "mysql": "2",
     "pg": "4",
