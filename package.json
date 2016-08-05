@@ -13,7 +13,7 @@
     "test-travis": "babel-node node_modules/.bin/isparta cover --report lcovonly node_modules/.bin/_mocha -- -u exports --bail --check-leaks test"
   },
   "dependencies": {
-    "babel-core": "6",
+    "babel-core": "6.13.1",
     "koa-compose": "3",
     "lodash": "3",
     "pluralize": "1"
