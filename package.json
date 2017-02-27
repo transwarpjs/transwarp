@@ -28,7 +28,7 @@
     "babel-preset-stage-2": "6",
     "babel-preset-stage-3": "6",
     "eslint": "1",
-    "eslint-plugin-babel": "3",
+    "eslint-plugin-babel": "4.1.0",
     "isparta": "4",
     "mocha": "2",
     "mongodb": "2",
