@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "babel-core": "6",
-    "koa-compose": "3",
+    "koa-compose": "3.2.1",
     "lodash": "3",
     "pluralize": "1"
   },
